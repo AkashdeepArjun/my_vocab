@@ -131,11 +131,6 @@ class MainActivity : AppCompatActivity() {
 
                                 binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
 
-
-
-
-
-
                                 true
                             }
                             else->{

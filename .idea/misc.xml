@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/bg_controls_button.xml" value="0.198" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_capture.xml" value="0.264" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_detect_texts.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_home.xml" value="0.2" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_quiz.xml" value="0.2076923076923077" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_score.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_translate.xml" value="0.253125" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/logs_frag.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/menu/log_frag_options_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/menu/options_menu_main.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
