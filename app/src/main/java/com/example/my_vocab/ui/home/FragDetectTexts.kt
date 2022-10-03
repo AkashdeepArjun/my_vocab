@@ -1,4 +1,4 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui.home
 
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +15,9 @@ import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.my_vocab.DebugLogger
+import com.example.my_vocab.MyVocabApp
+import com.example.my_vocab.TextDetectionState
 import com.example.my_vocab.databinding.FragDetectTextsBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.chip.Chip

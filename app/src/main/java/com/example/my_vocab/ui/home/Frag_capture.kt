@@ -1,4 +1,4 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui.home
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -8,41 +8,28 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Surface
-import android.view.Surface.ROTATION_90
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.camera.camera2.internal.compat.workaround.ResolutionCorrector
-import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.core.*
-import androidx.camera.core.ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY
-import androidx.camera.core.ImageCapture.CAPTURE_MODE_ZERO_SHUTTER_LAG
-import androidx.camera.core.impl.CaptureProcessor
-import androidx.camera.core.impl.CaptureStage
-import androidx.camera.core.internal.compat.quirk.ImageCaptureRotationOptionQuirk
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.example.my_vocab.DebugLogger
 import com.example.my_vocab.databinding.FragCaptureBinding
-import com.google.android.gms.common.images.Size
+import com.example.my_vocab.ui.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 @AndroidEntryPoint
 class Frag_capture:Fragment() {
 
-    private lateinit var logger:DebugLogger
+    private lateinit var logger: DebugLogger
 
     companion object{
 

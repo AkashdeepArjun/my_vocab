@@ -44,6 +44,17 @@ sealed class TranslateMultipleWordsStatus{
 
 }
 
+sealed class TimerState{
+    data class DONE(val message: String?=null):TimerState()
+    data class Error(val error_message: String?=null):TimerState()
+    data class RUNNING(val message: String?):TimerState()
+    data class STARTTED(val message: String?):TimerState()
+    data class INITIALIZE(val message: String?):TimerState()
+
+}
+
+
+
 
 fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner,observer:(T)->Unit){
 

@@ -8,7 +8,7 @@
         app:showAsAction="always"
         />
 
-    <item android:id="@+id/frag_quiz"
+    <item android:id="@+id/graph_quiz"
         android:title="quiz"
         android:icon="@drawable/icon_quiz"
         app:showAsAction="always"

@@ -1,45 +1,28 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.PackageManagerCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.get
 import androidx.navigation.ui.*
+import com.example.my_vocab.DebugLogger
+import com.example.my_vocab.R
 import com.example.my_vocab.databinding.ActivityMainBinding
+import com.example.my_vocab.ui.home.Frag_HomeDirections
 import com.example.my_vocab.viewmodels.MyViewModelFactory
 import com.example.my_vocab.viewmodels.SharedViewModel
-import com.google.android.gms.common.api.internal.LifecycleFragment
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.BufferedInputStream
-import java.io.File
-import java.io.FileReader
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -112,11 +95,12 @@ class MainActivity : AppCompatActivity() {
                     binding!!.bottomNavView.setOnItemSelectedListener {
                         item->
                         when(item.itemId){
-                            R.id.frag_home->{
+                            R.id.frag_home ->{
                                 nav_controller.popBackStack(nav_controller.graph.startDestinationId,false)
                                 binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
+
                                 true}
-                            R.id.frag_quiz->{
+                            R.id.graph_quiz ->{
                                 nav_controller.popBackStack(R.id.frag_home,false)
                                 nav_controller.navigate(item.itemId)
 //                                binding!!.bottomNavView.invalidate()
@@ -124,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
                                 true
                             }
-                            R.id.frag_score->{
+                            R.id.frag_score ->{
                                 nav_controller.popBackStack(R.id.frag_home,false)
                                 nav_controller.navigate(item.itemId)
 //                                binding!!.bottomNavView.invalidate()
@@ -144,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                          binding!!.bottomNavView.setOnItemReselectedListener {
 
                                  item->
-                                if(item.itemId!=R.id.frag_home){
+                                if(item.itemId!= R.id.frag_home){
                                     nav_controller.popBackStack(R.id.frag_home,false)
                                     nav_controller.navigate(item.itemId)
                                 }else{
@@ -163,7 +147,11 @@ class MainActivity : AppCompatActivity() {
                                       //ACTION BAR NAVIGATION SETUP
 
             fun setUpActionBarConfiguration(nav_controller:NavController){
-            app_bar_configuration= AppBarConfiguration(setOf(R.id.frag_home,R.id.frag_quiz,R.id.frag_score))
+            app_bar_configuration= AppBarConfiguration(setOf(
+                R.id.frag_home,
+                R.id.frag_quiz,
+                R.id.frag_score
+            ))
 //            app_bar_configuration= AppBarConfiguration(nav_controller.graph)
             setupActionBarWithNavController(nav_controller,app_bar_configuration!!)
 
@@ -183,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                 //CHECKS IF REQUIRED PERMISSIONS ARE GRANTED
 
     fun checkAllPermissionsGranted():Boolean{
-        all_permissions_granted= REQUIRED_PERMISSIONS.all { permission->
+        all_permissions_granted = REQUIRED_PERMISSIONS.all { permission->
             ContextCompat.checkSelfPermission(baseContext,permission)== PackageManager.PERMISSION_GRANTED
 
         }
@@ -217,7 +205,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.menu_item_logs->{
+            R.id.menu_item_logs ->{
                 nav_controller.navigate(Frag_HomeDirections.actionFragHomeToFragLogs())
                 true}
 

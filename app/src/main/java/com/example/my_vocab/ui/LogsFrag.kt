@@ -1,11 +1,9 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui
 
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
 import android.view.*
-import android.widget.Toast
-import androidx.compose.runtime.DisposableEffect
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.iterator
@@ -13,14 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.my_vocab.BuildConfig
+import com.example.my_vocab.DebugLogger
+import com.example.my_vocab.R
 import com.example.my_vocab.databinding.LogsFragBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.FileReader
-import kotlin.math.log
 
 
 class LogsFrag :Fragment(),MenuProvider{
@@ -47,9 +45,9 @@ class LogsFrag :Fragment(),MenuProvider{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         path="Log"
-        file_name=DebugLogger.FILE_TIME_STAMP_FORMAT+".txt"
+        file_name= DebugLogger.FILE_TIME_STAMP_FORMAT +".txt"
         log_directory =
-        File(Environment.getExternalStorageDirectory().absolutePath,BuildConfig.APPLICATION_ID+ File.separator+path)
+        File(Environment.getExternalStorageDirectory().absolutePath, BuildConfig.APPLICATION_ID + File.separator+path)
         log_file=File(log_directory,file_name)
 
     }
@@ -135,7 +133,7 @@ class LogsFrag :Fragment(),MenuProvider{
 
         menuInflater.inflate(R.menu.log_frag_options_menu,menu)
         menu.iterator().forEach {
-            if(it.itemId==R.id.menu_item_clear_logs){
+            if(it.itemId== R.id.menu_item_clear_logs){
                 it.isVisible=true
             }else{
                 it.isVisible=false
@@ -147,7 +145,7 @@ class LogsFrag :Fragment(),MenuProvider{
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when(menuItem.itemId){
-                R.id.menu_item_clear_logs->{
+                R.id.menu_item_clear_logs ->{
                     DebugLogger.clearLogs()
                     if(DebugLogger.deleted_log_file_succees){
                         findNavController().popBackStack(R.id.frag_home,false)

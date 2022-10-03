@@ -3,21 +3,55 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    >
 
 
-    <TextView
-        android:id="@+id/title_of_frag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Score Fragment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="50sp"
+   <com.google.android.material.card.MaterialCardView
+       android:id="@+id/cv_score"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:layout_constraintTop_toTopOf="parent"
+      app:cardBackgroundColor="@color/score_card_color"
+       android:elevation="16dp"
+       app:cardCornerRadius="16dp"
+       >
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:gravity="center"
+          >
+         <ImageView
+             android:layout_width="108dp"
+             android:layout_height="108dp"
+             android:layout_marginTop="4dp"
+             android:src="@drawable/_x1"
+             />
+         <TextView
+             android:id="@+id/tv_title_score"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="60sp"
+             android:text="Best score"
+             android:textStyle="bold"
+             />
+         <TextView
+             android:id="@+id/tv_score"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="100sp"
+             android:text="score"
+             android:textStyle="bold"
+             android:textColor="#1C6758"
+             />
 
-        />
+
+
+      </LinearLayout>
+
+   </com.google.android.material.card.MaterialCardView>
 
 
 

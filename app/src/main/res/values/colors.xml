@@ -13,4 +13,14 @@
     <color name="words_learned_color">#236C30</color>
     <color name="learn_new_word_color">#247ba0</color>
     <color name="primary_secondry_light_wala">#2BAAA6</color>
+    <color name="quiz_options_bg_color">#71ABF5</color>
+    <color name="quiz_option_selected_color">#8EE07F</color>
+    <color name="score_card_color">#FAF4B7</color>
+    <color name="wrong_chip_color">#FA7070</color>
+    <color name="quiz_scoreboard">#E1FFB1</color>
+    <color name="quiz_scoreboard_title_correct">#1C6758</color>
+    <color name="quiz_scoreboard_title_wrong">#CD104D</color>
+    <color name="quiz_scoreboard_unattempted">#5C2E7E</color>
+    <color name="match_result_card_color">#937DC2</color>
+    <color name="match_result_buttons">#FBF2CF</color>
 </resources>

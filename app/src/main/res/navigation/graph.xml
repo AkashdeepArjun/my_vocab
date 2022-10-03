@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/frag_home"
-        android:name="com.example.my_vocab.Frag_Home"
+        android:name="com.example.my_vocab.ui.home.Frag_Home"
         android:label="my words"
         tools:layout="@layout/frag_home"
         >
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/frag_capture"
-        android:name="com.example.my_vocab.Frag_capture"
+        android:name="com.example.my_vocab.ui.home.Frag_capture"
         tools:layout="@layout/frag_capture"
         android:label="capture photo"
         >
@@ -46,26 +46,16 @@
 
             <!--   Fragment quiz -->
 
-    <fragment android:id="@+id/frag_quiz"
-        android:name="com.example.my_vocab.Frag_Quiz"
-        tools:layout="@layout/frag_quiz"
-        android:label="quiz"
-        >
 
-    </fragment>
 
                 <!-- Fragment score    -->
-    <fragment android:id="@+id/frag_score"
-        android:name="com.example.my_vocab.FragScore"
-        tools:layout="@layout/frag_score"
-        android:label="score"
-        />
+
 
 
             <!-- fragment detected texts             -->
     <fragment
         android:id="@+id/frag_detected_texts"
-        android:name="com.example.my_vocab.FragDetectTexts"
+        android:name="com.example.my_vocab.ui.home.FragDetectTexts"
         tools:layout="@layout/frag_detect_texts"
         android:label="detected texts"
         >
@@ -78,7 +68,7 @@
 
 <!--            fragment translate selected words-->
     <fragment android:id="@+id/frag_translate"
-        android:name="com.example.my_vocab.FragTranslate"
+        android:name="com.example.my_vocab.ui.home.FragTranslate"
         android:layout="@layout/frag_translate"
         android:label="translate my words"
         >
@@ -93,10 +83,19 @@
 
 
     <fragment android:id="@+id/frag_logs"
-        android:name="com.example.my_vocab.LogsFrag"
+        android:name="com.example.my_vocab.ui.LogsFrag"
         android:label="logs"
         />
+    <fragment android:id="@+id/frag_score"
+        android:name="com.example.my_vocab.ui.score.FragScore"
+        tools:layout="@layout/frag_score"
+        android:label="score"
+        >
 
 
+    </fragment>
+
+
+    <include app:graph="@navigation/graph_quiz"/>
 
 </navigation>

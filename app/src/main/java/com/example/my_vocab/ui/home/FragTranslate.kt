@@ -1,4 +1,4 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui.home
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
-import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.my_vocab.*
 import com.example.my_vocab.databinding.FragTranslateBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.chip.Chip
@@ -219,19 +218,19 @@ class FragTranslate:Fragment() {
                                 vm.saving_words_status.observe(viewLifecycleOwner,Observer{
                                     state->
                                     when(state){
-                                        is UserProcessState.Loading->{
+                                        is UserProcessState.Loading ->{
                                             Toast.makeText(this.context,"loading...",Toast.LENGTH_SHORT).show()
                                             binding!!.buttonSaveToMyDictionary.isEnabled=false
 
                                         }
-                                        is UserProcessState.Success->{
+                                        is UserProcessState.Success ->{
                                            Toast.makeText(this.context,"success xD",Toast.LENGTH_SHORT).show()
 
 //                                            this.findNavController().navigate(FragTranslateDirections.actionFragTranslateToFragHome(state.size))
                                             this.findNavController().popBackStack(R.id.frag_home,false,false)
 
                                         }
-                                        is UserProcessState.Error->{
+                                        is UserProcessState.Error ->{
                                             binding!!.buttonSaveToMyDictionary.isEnabled=true
                                             Toast.makeText(this.context,"failed :(",Toast.LENGTH_SHORT).show()
 

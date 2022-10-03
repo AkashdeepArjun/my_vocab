@@ -3,12 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/bg_clock.xml" value="0.2545" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/bg_controls_button.xml" value="0.198" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/bg_test_type_title.xml" value="0.2695" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/quiz_option_text_color.xml" value="0.2225" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/quiz_test_option_colors.xml" value="0.2225" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/drawable/rectangular_bg.xml" value="0.2225" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_capture.xml" value="0.264" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_detect_texts.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_home.xml" value="0.2" />
-        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_quiz.xml" value="0.2076923076923077" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_in_quiz_game.xml" value="0.4" />
+        <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_quiz.xml" value="0.264" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_score.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/frag_translate.xml" value="0.253125" />
         <entry key="..\:/Users/wadhw/AndroidStudioProjects/my_vocab/app/src/main/res/layout/logs_frag.xml" value="0.25416666666666665" />

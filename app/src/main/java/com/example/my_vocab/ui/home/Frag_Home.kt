@@ -1,4 +1,4 @@
-package com.example.my_vocab
+package com.example.my_vocab.ui.home
 
 import android.content.Context
 import android.os.Bundle
@@ -6,13 +6,9 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.databinding.FragHomeBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -99,17 +95,17 @@ class Frag_Home:Fragment() {
         vm.fethed_vocab_state.observe(viewLifecycleOwner, Observer {
             state->
             when(state){
-                is UserProcessState.Loading->{
+                is UserProcessState.Loading ->{
 
                     binding!!.numberOfWords.text="loading..."
 
                 }
-                is UserProcessState.Success->{
+                is UserProcessState.Success ->{
                     binding!!.numberOfWords.text=state.size.toString()
 //                    snackbar!!.show()
 
                 }
-                is UserProcessState.Error->{
+                is UserProcessState.Error ->{
                     binding!!.numberOfWords.text="0"
                 }
                 else->{
