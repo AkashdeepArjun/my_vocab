@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,6 +24,7 @@ import com.example.my_vocab.viewmodels.MyViewModelFactory
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nav_host_fragment: NavHostFragment
     private  var binding:ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
@@ -67,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        Log.e("ACTIVITY","CREATED!!!")
+        Timber.tag(TAG).e("ACTIVITY CREATED")
 //        Timber.tag("MAIN ACTIVITY").v(" viewmodel instantiated with hashcode ${viemodel.hashCode()}")
 //        Timber.tag("MAIN ACTIVITY").v("viewmodel factory instantiated viewmodel with hashcode ${vmf.hashCode()}")
 

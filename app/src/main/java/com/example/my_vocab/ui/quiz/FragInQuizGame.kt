@@ -328,7 +328,7 @@ class FragInQuizGame :Fragment() {
 
 
      @OptIn(ObsoleteCoroutinesApi::class)
-     fun startQuiz(number_of_words: Int) =scopemain@lifecycleScope.launch{
+     fun startQuiz(number_of_words: Int,time_in_seconds:Int) =scopemain@lifecycleScope.launch{
 //         val range=30000L..300000L
 
          binding.tvWordsCount.text = "1/${number_of_words}"
@@ -345,17 +345,17 @@ class FragInQuizGame :Fragment() {
 //
              val timer_job=launch {
 
-                        withTimeoutOrNull(20000L) {
+                        withTimeoutOrNull(time_in_seconds*1000L) {
 
-                            clock_timer!!.receiveAsFlow().take(20).cancellable().collect {
+                            clock_timer!!.receiveAsFlow().take(time_in_seconds).cancellable().collect {
 
                                 clock_sec += 1
 
-                                binding.tvClock.text = "${20 - clock_sec}"
+                                binding.tvClock.text = "${time_in_seconds - clock_sec}"
 
 
 
-                                if (clock_sec == 20 ) {
+                                if (clock_sec == time_in_seconds ) {
 
                                     if(!viewmodel.attempted){
                                         viewmodel.didNotAttempt()
@@ -376,6 +376,7 @@ class FragInQuizGame :Fragment() {
 //                                        findNavController().popBackStack(R.id.frag_home,false)
 //                                        this@FragInQuizGame.findNavController().navigate(FragInQuizGameDirections.actionFragInQuizGameToFragScore(viewmodel.score))
                                         // logic to navigate to winner/looser frag
+//                                        val result:Float=(viewmodel.correct_answers/number_of_words).toFloat()
                                         findNavController().navigate(FragInQuizGameDirections.actionFragInQuizGameToFragMatchResult(viewmodel.score))
 
                                     }
@@ -433,18 +434,18 @@ class FragInQuizGame :Fragment() {
              when (args.testType) {
                  1 -> {
 
-                     startQuiz(10)
+                     startQuiz(10,10)
 
                  }
                  2 -> {
 //                binding!!.tvWordsCount.text="1/${((viewmodel).fetched_vocabs.size/2)}"
 
-                     startQuiz((viewmodel.fetched_vocabs.keys.size / 2))
+                     startQuiz((viewmodel.fetched_vocabs.size/ 2),10)
 
                  }
                  else -> {
 //                binding!!.tvWordsCount.text="1/${viewmodel.fetched_vocabs.size}"
-                     startQuiz(viewmodel.fetched_vocabs.keys.size)
+                     startQuiz(viewmodel.fetched_vocabs.size,10)
                  }
              }
          }

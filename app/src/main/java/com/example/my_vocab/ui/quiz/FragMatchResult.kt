@@ -64,7 +64,9 @@ class FragMatchResult: Fragment() {
     }
 
     fun setScore(){
-        binding!!.score.text=args.score.toString()
+        var score=args.score
+        binding!!.score.text=score.toString()
+
     }
 
 

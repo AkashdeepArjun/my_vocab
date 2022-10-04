@@ -114,4 +114,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
+    implementation "androidx.core:core-splashscreen:1.0.0"
+
 }

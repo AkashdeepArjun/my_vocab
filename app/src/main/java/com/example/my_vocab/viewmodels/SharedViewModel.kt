@@ -8,6 +8,7 @@ import androidx.lifecycle.*
 import com.example.my_vocab.*
 import com.example.my_vocab.data.datamodel.Vocab
 import com.example.my_vocab.repo.VocabRepo
+import com.example.my_vocab.ui.MainActivity
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.sdkinternal.model.RemoteModelDownloadManager
@@ -42,11 +43,12 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             var correct_answers=0
             var wrong_answers=0
             var unattempted_answers=0
-            var score:Float= 0.0f
             var attempted=false
+            var score:Float=0.0f
 
-            fun setAttempted(){
+    fun setAttempted(){
                 attempted=true
+
             }
 
             fun unsetAttempted(){
@@ -55,23 +57,26 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             }
             fun didCorrect(){
                 correct_answers+=1
-                score=score+total_score()
+                score=score+ correct_answer_point*1
             }
 
             fun didWrong(){
                 wrong_answers+=1
-                score+total_score()
+                score=score+ wrong_answer_point*1
+
             }
 
             fun didNotAttempt(){
                 unattempted_answers+=1
-                score+=total_score()
+                score=score+ unattempted_answer_point*1
+
+
             }
 
-            fun total_score():Float{
-                val score= ((correct_answer_point*correct_answers)+(wrong_answers* wrong_answer_point)+(unattempted_answer_point*unattempted_answers)).toFloat()
-                return score
-            }
+
+
+
+
                     //CHECK IF MODEL HAVE BEEN DOWNLOADED
 
     private val _is_translator_available:MutableLiveData<ModelDownloadState> = MutableLiveData<ModelDownloadState>(ModelDownloadState.Loading())
@@ -81,9 +86,9 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
         private val TAG="SHARED VIEW MODEL"
 
-        val correct_answer_point=1
-        val wrong_answer_point=-1
-        val unattempted_answer_point=-0.5
+        val correct_answer_point=1.0f
+        val wrong_answer_point=-1.0f
+        val unattempted_answer_point=-0.5f
 
     }
 
@@ -163,7 +168,8 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         setupTranslator()               // setting up and initialize the google translator
      download_translator_model()   // downloads translator model
 //        translateWords()           // translates the selected words
-        Log.e("VIEWMODEL","initialized")
+        Timber.tag("VIEWMODEL HASTA WA WASTA BABY").e("VIEWMODEL INITIALIZED")
+
 
 //        getAllVocabs()
 
@@ -396,11 +402,15 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
              repo.getAllVocabs()
          }.onSuccess {
              list->
-             for(i in list){
-                 fetched_vocabs.put(i.word,i.meaning)
+             Timber.tag("FETCHING SUCCESS").v("${list.size} data obtained..\n")
+             list.forEach {
+                 vocab ->
+                 fetched_vocabs[vocab.word] = vocab.meaning
+
              }
-             Timber.tag(TAG).v("FETCH VOCABS SUCCESS!!\n ")
-             _fethed_vocab_state.postValue(UserProcessState.Success(list.size))
+             Timber.tag("FETCHING SUCCESS 2").v("${fetched_vocabs.size} hasmap data obtained..\n")
+
+             _fethed_vocab_state.postValue(UserProcessState.Success(fetched_vocabs.size))
 
          }.onFailure {
              _fethed_vocab_state.postValue(UserProcessState.Error("error from viewmodel"))
@@ -409,46 +419,6 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
 
      }
-
-    fun startTimer(time_in_seconds:Int,delay:Long?=null)=viewModelScope.launch(Dispatchers.IO){
-        var second_count=time_in_seconds
-        _clock_timer.postValue(TimerState.STARTTED("started"))
-
-        kotlin.runCatching {
-            if(delay!=null){
-                delay(delay/1000L)
-            }
-            while (second_count!=0){
-                delay(1000L)
-                _clock_timer.postValue(TimerState.RUNNING("${second_count}"));
-                second_count-=1
-            }
-        }.onSuccess {
-            _clock_timer.postValue(TimerState.DONE("done"))
-
-        }.onFailure {
-            _clock_timer.postValue(TimerState.Error("failed"))
-        }
-
-    }
-
-    fun mytimer(time_in_seconds: Int,delay_in_milliseconds: Long,count:Int)= flow {
-
-            repeat(count){
-
-                (time_in_seconds..0).forEach{
-                    delay(1000L)
-                    emit(it)
-
-                }
-
-            }
-
-
-
-
-
-        }.flowOn(Dispatchers.Main)
 
 
     fun resetQuizData(){
