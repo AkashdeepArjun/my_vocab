@@ -302,7 +302,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
                         //DOWNLOADS TRANSLATOR MODEL
     fun download_translator_model()=viewModelScope.launch(Dispatchers.IO){
 
-        _is_translator_available.postValue(ModelDownloadState.Loading())
+        _is_translator_available.postValue(ModelDownloadState.Loading("downloading english to hindi translator"))
         conditions=DownloadConditions
             .Builder()
             .requireWifi()
@@ -310,7 +310,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         eng_to_hindi_translator!!
             .downloadModelIfNeeded(conditions!!)
             .addOnSuccessListener {
-                _is_translator_available.postValue(ModelDownloadState.Successs())
+                _is_translator_available.postValue(ModelDownloadState.Successs("translator download success!!"))
             }
             .addOnFailureListener {
             _is_translator_available.postValue(ModelDownloadState.Error(it))

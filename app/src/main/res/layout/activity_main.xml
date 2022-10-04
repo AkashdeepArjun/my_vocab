@@ -38,6 +38,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
         />
+    <LinearLayout
+        android:id="@+id/permissons_ui"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white"
+        >
+        <ImageView
+            android:id="@+id/permissions_status"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:src="@drawable/waiting"
+            />
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="downloading translator"
+                />
 
+
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,17 +6,23 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Display.Mode
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import com.example.my_vocab.DebugLogger
+import com.example.my_vocab.*
 import com.example.my_vocab.R
 import com.example.my_vocab.databinding.ActivityMainBinding
 import com.example.my_vocab.ui.home.Frag_HomeDirections
@@ -30,9 +36,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+        //permissions granted or not
+
+    private var activity_result_launcher: ActivityResultLauncher<Array<String>>?=null
+
+
     @Inject
     lateinit var vmf:MyViewModelFactory
-
     private lateinit var viemodel:SharedViewModel
     var logger: DebugLogger?=null
     companion object{
@@ -55,19 +65,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        setUpActivityResultLauncher()
+
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
 
-        if(checkAllPermissionsGranted())
-        {
-           showToast(this,"all required permissions granted")
-            setUpViewModel()
-            setUpBottomNavigation()
-        }else{
-           showToast(this,"please grant storage and internet permissions",true)
-            getAllPermissiions()
+                //CHECKING AND REQUESTING PERMISSIONS OLD API
+//            if(checkAllPermissionsGranted())
+//            {
+//                showToast(this,"all required permissions granted")
+//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
+//                binding!!.statusText.text="permisions granted"
+//                setUpViewModel()
+//                setupObservers()
+//                setUpBottomNavigation()
+//            }else{
+//                binding!!.bottomNavView.visibility=View.GONE
+//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.waiting))
+//                binding!!.statusText.text="please grant permissions "
+//                getAllPermissiions()
+//
+//            }
 
-        }
+
+
+
+
 
 
         Timber.tag(TAG).e("ACTIVITY CREATED")
@@ -268,7 +292,62 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+fun setupObservers(){
+    viemodel.is_translator_available.observe(this, Observer{
+        state->
+        when(state){
+            is ModelDownloadState.Loading->{
+                binding!!.statusText.text=state.message
+            }
+            is ModelDownloadState.Successs->{
+                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
+                binding!!.statusText.text=state.message
+                binding!!.permissonsUi.visibility=View.GONE
+                binding!!.bottomNavView.visibility=View.VISIBLE
+            }
+            else->{
+
+                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.error))
+                binding!!.statusText.text="error while loading translator "
+            }
+        }
+
+    })
 
 
+}
+
+
+
+    fun setUpActivityResultLauncher(){
+
+        activity_result_launcher=registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+            permissions->
+            var l=0
+            permissions.entries.forEach {
+                if(it.value){
+                    l++
+                }
+            }
+            if(l==permissions.entries.size){
+                showToast(this,"all required permissions granted")
+                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
+                binding!!.statusText.text="permisions granted"
+                setUpViewModel()
+                setupObservers()
+                setUpBottomNavigation()
+                showToast(this,"permisions granted")
+            }else{
+                binding!!.permissonsUi.visibility=View.VISIBLE
+                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.error))
+                binding!!.statusText.text="please grant permissions"
+                getAllPermissiions()
+
+            }
+
+        }
+
+
+    }
 
 }
