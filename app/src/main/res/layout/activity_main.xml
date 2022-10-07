@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:animateLayoutChanges="true"
+    >
 
     <TextView
         android:id="@+id/empty_vocab_message"
@@ -37,6 +39,7 @@
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
+
         />
     <LinearLayout
         android:id="@+id/permissons_ui"

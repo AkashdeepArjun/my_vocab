@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.my_vocab.DebugLogger
 import com.example.my_vocab.databinding.FragCaptureBinding
 import com.example.my_vocab.ui.MainActivity
@@ -44,6 +45,13 @@ class Frag_capture:Fragment() {
 
     private lateinit var camera_executor:ExecutorService
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflator=TransitionInflater.from(requireContext())
+        enterTransition=inflator.inflateTransition(com.example.my_vocab.R.transition.slide_from_right)
+        exitTransition=inflator.inflateTransition(com.example.my_vocab.R.transition.slide_from_left)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,12 +74,7 @@ class Frag_capture:Fragment() {
 
             // starts the camera
     private fun init_Camera(){
-        if(MainActivity.all_permissions_granted){
-            start_camera()
-        }else{
-            Toast.makeText(context,"please grant required permissions ",Toast.LENGTH_LONG).show()
-//            ActivityCompat.requestPermissions(this.requireActivity(),MainActivity.REQUIRED_PERMISSIONS,MainActivity.REQUEST_CODE_PERMISSION)
-        }
+        start_camera()
 
 
     }

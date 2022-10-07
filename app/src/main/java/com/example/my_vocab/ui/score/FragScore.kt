@@ -10,6 +10,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
+import com.example.my_vocab.R
 import com.example.my_vocab.databinding.FragScoreBinding
 import com.example.my_vocab.ui.quiz.FragInQuizGameArgs
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -18,6 +20,14 @@ class FragScore: Fragment() {
 
     private var binding:FragScoreBinding?=null
     private val vm:SharedViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_left)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

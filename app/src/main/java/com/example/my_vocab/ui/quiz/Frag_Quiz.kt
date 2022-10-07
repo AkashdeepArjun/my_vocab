@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
 import com.example.my_vocab.databinding.FragQuizBinding
 import com.example.my_vocab.observeOnce
@@ -28,6 +29,13 @@ class Frag_Quiz: Fragment() {
     var checked_option_id=0;
     private var binding:FragQuizBinding? = null
     private val vm:SharedViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_left)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

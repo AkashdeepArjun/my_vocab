@@ -293,7 +293,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 fun setupObservers(){
-    viemodel.is_translator_available.observe(this, Observer{
+    viemodel.is_translator_available.observeOnce(this){
         state->
         when(state){
             is ModelDownloadState.Loading->{
@@ -312,7 +312,7 @@ fun setupObservers(){
             }
         }
 
-    })
+    }
 
 
 }

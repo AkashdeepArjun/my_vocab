@@ -14,9 +14,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.example.my_vocab.DebugLogger
 import com.example.my_vocab.MyVocabApp
+import com.example.my_vocab.R
 import com.example.my_vocab.TextDetectionState
 import com.example.my_vocab.databinding.FragDetectTextsBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -50,6 +52,10 @@ class FragDetectTexts: Fragment() {
         super.onCreate(savedInstanceState)
         init_textRecognizer()
         detected_texts = mutableListOf<String>()
+
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
 
     }
 

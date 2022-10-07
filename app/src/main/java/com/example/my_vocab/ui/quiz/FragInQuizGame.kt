@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
 import com.example.my_vocab.TimerState
 import com.example.my_vocab.databinding.FragInQuizGameBinding
@@ -65,6 +66,13 @@ class FragInQuizGame :Fragment() {
 
             //QUESTION COUNTER
     private var question_counter=1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_right)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

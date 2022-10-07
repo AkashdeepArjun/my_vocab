@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
 import com.example.my_vocab.databinding.FragMatchResultBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -21,6 +22,13 @@ class FragMatchResult: Fragment() {
     private val args:FragMatchResultArgs by navArgs()
 
     private val vm:SharedViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
+import com.example.my_vocab.R
 import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.databinding.FragHomeBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -23,6 +25,9 @@ class Frag_Home:Fragment() {
     private val vm: SharedViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater=TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_left)
         binding=FragHomeBinding.inflate(requireActivity().layoutInflater)
     }
 

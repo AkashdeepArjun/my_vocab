@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.my_vocab.*
 import com.example.my_vocab.databinding.FragTranslateBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -28,6 +29,13 @@ class FragTranslate:Fragment() {
     var snackbar:Snackbar?=null
     private val vm: SharedViewModel by activityViewModels()
     private  var binding:FragTranslateBinding?=null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater= TransitionInflater.from(requireContext())
+        exitTransition=inflater.inflateTransition(R.transition.slide_from_right)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
