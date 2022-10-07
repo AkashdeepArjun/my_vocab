@@ -69,7 +69,11 @@ class MainActivity : AppCompatActivity() {
 
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-        activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
+
+            activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
+
+
+
 
                 //CHECKING AND REQUESTING PERMISSIONS OLD API
 //            if(checkAllPermissionsGranted())
@@ -293,16 +297,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 fun setupObservers(){
-    viemodel.is_translator_available.observeOnce(this){
+    viemodel.is_translator_available.observe(this){
         state->
         when(state){
             is ModelDownloadState.Loading->{
                 binding!!.statusText.text=state.message
             }
             is ModelDownloadState.Successs->{
-                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
-                binding!!.statusText.text=state.message
                 binding!!.permissonsUi.visibility=View.GONE
+//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
+//                binding!!.statusText.text=state.message
+
                 binding!!.bottomNavView.visibility=View.VISIBLE
             }
             else->{
@@ -331,8 +336,11 @@ fun setupObservers(){
             }
             if(l==permissions.entries.size){
                 showToast(this,"all required permissions granted")
-                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
-                binding!!.statusText.text="permisions granted"
+                binding!!.permissonsUi.visibility=View.GONE
+
+//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
+//                binding!!.statusText.text="permisions granted"
+                binding!!.bottomNavView.visibility=View.VISIBLE
                 setUpViewModel()
                 setupObservers()
                 setUpBottomNavigation()
@@ -340,7 +348,8 @@ fun setupObservers(){
             }else{
                 binding!!.permissonsUi.visibility=View.VISIBLE
                 binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.error))
-                binding!!.statusText.text="please grant permissions"
+                binding!!.bottomNavView.visibility=View.GONE
+                binding!!.statusText.text="please grant camera permissons this app needs camera to tranlate texts"
                 getAllPermissiions()
 
             }
