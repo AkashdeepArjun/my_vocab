@@ -55,6 +55,16 @@ class ScoresAdapter():RecyclerView.Adapter<ScoresAdapter.ScoreViewHolder>(){
         fun bind(position:Int){
             val item=data.get(position)
             binding.apply {
+                if(item.quiz_type=="Rapid Test"){
+                    tvTypeQuiz.text="R"
+                }
+                if(item.quiz_type=="Progressor Test"){
+                    tvTypeQuiz.text="P"
+                }
+                if(item.quiz_type=="Scholar Test"){
+                    tvTypeQuiz.text="S"
+                }
+
                 tvQuizType.text=item.quiz_type
                 tvScore.text=item.score.toString()
                 tvDate.text= item.date?.let {

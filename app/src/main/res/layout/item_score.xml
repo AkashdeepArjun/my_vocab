@@ -7,20 +7,29 @@
     app:cardCornerRadius="16dp"
     android:layout_margin="4dp"
     app:cardBackgroundColor="#D9D4C7"
+    app:cardElevation="8dp"
     >
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="4dp"
     >
-    <TextView
-        android:id="@+id/tv_date"
+    <ImageView
+        android:id="@+id/clock_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_time"
+        />
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/clock_icon"
+        app:layout_constraintTop_toTopOf="parent"
         android:text="Date Goes Here"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:layout_margin="4dp"
         />
     <TextView
@@ -30,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Quiz type Here"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:layout_margin="4dp"
 
 
@@ -39,13 +48,38 @@
         android:id="@+id/tv_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_date"
+        app:layout_constraintEnd_toEndOf="@id/tv_quiz_type"
         app:layout_constraintTop_toBottomOf="@id/tv_date"
-        android:text="40.0/10.0"
+        android:text="2.0"
         android:textSize="40sp"
         android:layout_margin="4dp"
         android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/title_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_date"
+        app:layout_constraintEnd_toStartOf="@id/tv_quiz_type"
+        android:text="Score:"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/tv_type_quiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_quiz_type"
+        android:layout_margin="4dp"
+        android:text="R"
+        android:textSize="40sp"
+        android:textStyle="bold"
+
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
