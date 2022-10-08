@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
+import com.example.my_vocab.WorkProgressState
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.databinding.FragMatchResultBinding
 import com.example.my_vocab.viewmodels.SharedViewModel
+import java.util.Date
 
 class FragMatchResult: Fragment() {
 
@@ -72,11 +77,24 @@ class FragMatchResult: Fragment() {
     }
 
     fun setScore(){
-        var score=args.score
+        val score=args.score
         binding!!.score.text=score.toString()
+        vm.saveScore(Score(quiz_type = vm.current_type, score = score, date = Date(System.currentTimeMillis())))
+        vm.save_score_Status.observe(viewLifecycleOwner, Observer {
 
+            if(it is WorkProgressState.SUCCESS){
+                Toast.makeText(context,"scores saved",Toast.LENGTH_SHORT).show()
+
+            }
+        })
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        vm.resetQuizData()
+        vm.resetQuizScores()
+    }
 
 
 

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
 import timber.log.Timber
 
@@ -26,5 +27,7 @@ class VocabRepo(val dao: BaseDao) {
 
      suspend fun delete(vocab: Vocab) = dao.delete(vocab)
 
+    suspend fun saveScore(score: Score)=dao.saveScore(score)
 
+    suspend fun getAllScores():List<Score> = dao.getAllScores()
 }

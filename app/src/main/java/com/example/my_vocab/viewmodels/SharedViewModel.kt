@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.my_vocab.*
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
 import com.example.my_vocab.repo.VocabRepo
 import com.example.my_vocab.ui.MainActivity
@@ -22,6 +23,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.internal.aggregatedroot.codegen._com_example_my_vocab_MyVocabApp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -45,6 +47,8 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             var unattempted_answers=0
             var attempted=false
             var score:Float=0.0f
+            var current_type=""
+            var total_questions=0
 
     fun setAttempted(){
                 attempted=true
@@ -158,6 +162,16 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             private val _clock_timer:MutableLiveData<TimerState> = MutableLiveData<TimerState>(TimerState.INITIALIZE(null))
             val clock_timer:LiveData<TimerState>  = _clock_timer
 
+
+        //FETCH ALL SCORES
+
+
+
+            // SAVE SCORES STATUS
+
+    private val _save_score_status:MutableLiveData<WorkProgressState> = MutableLiveData<WorkProgressState>(WorkProgressState.STARTED(null))
+    val save_score_Status:LiveData<WorkProgressState> =_save_score_status
+
     init {
         Timber.tag("VIEWMODEL").v("viewmodel instance created with hashcode ${this.hashCode()}")
         Timber.tag("VIEWMODEL").v("application instance created with hashcode ${application.hashCode()}")
@@ -169,6 +183,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
      download_translator_model()   // downloads translator model
 //        translateWords()           // translates the selected words
         Timber.tag("VIEWMODEL HASTA WA WASTA BABY").e("VIEWMODEL INITIALIZED")
+
 
 
 //        getAllVocabs()
@@ -421,13 +436,34 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
      }
 
 
-    fun resetQuizData(){
+    fun resetQuizScores(){
         score=0.0f
+
+    }
+
+    fun resetQuizData(){
         unattempted_answers=0
         correct_answers=0
         wrong_answers=0
         attempted=false
+        current_type=""
+        total_questions=0
+
     }
 
+
+
+
+    fun saveScore(score: Score)=viewModelScope.launch(Dispatchers.IO){
+        _save_score_status.postValue(WorkProgressState.STARTED(null))
+        kotlin.runCatching {
+            _save_score_status.postValue(WorkProgressState.RUNNNIN(null))
+            repo.saveScore(score)
+        }.onSuccess {
+
+           _save_score_status.postValue(WorkProgressState.SUCCESS(null))
+        }
+            .onFailure { _save_score_status.postValue(WorkProgressState.FAILED("deletion failed!!")) }
+    }
 }
 

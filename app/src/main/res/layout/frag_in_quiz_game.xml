@@ -17,8 +17,6 @@
         android:gravity="start|center"
         >
 
-
-
         <ImageView
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -85,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/title_word"
-
+            android:animateLayoutChanges="true"
             />
 
     <TextView
@@ -108,6 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/title_meanings"
+        android:animateLayoutChanges="true"
         />
 
 

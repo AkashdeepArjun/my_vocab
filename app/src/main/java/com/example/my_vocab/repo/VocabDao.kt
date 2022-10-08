@@ -1,7 +1,7 @@
 package com.example.my_vocab.repo
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
 
 @Dao
@@ -13,7 +13,7 @@ interface VocabDao :BaseDao{
     override suspend fun getAllVocabs():List<Vocab>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insert(vocabs: List<Vocab>)
+    override suspend fun insert(vocab: List<Vocab>)
 
 
     @Query("DELETE FROM my_dictionay")
@@ -22,5 +22,16 @@ interface VocabDao :BaseDao{
 
     @Delete
     override suspend fun delete(vocab: Vocab)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun saveScore(score: Score)
+
+
+    @Query("SELECT * FROM scores ORDER BY date DESC")
+    override suspend fun getAllScores(): List<Score>
+
+    @Query("DELETE from scores")
+    override suspend fun deleteAllScores()
+
 
 }

@@ -2,6 +2,7 @@ package com.example.my_vocab.di
 
 import android.app.Application
 import android.content.Context
+import com.example.my_vocab.adapters.ScoresAdapter
 import com.example.my_vocab.repo.BaseDao
 import com.example.my_vocab.repo.VocabDao
 import com.example.my_vocab.repo.VocabRepo
@@ -49,4 +50,8 @@ object AppModule {
         @Singleton
         @Provides
         fun provideVmf(application: Application,repo: VocabRepo)=MyViewModelFactory(application,repo)
+
+        @Singleton
+        @Provides
+        fun provideAdapter()=ScoresAdapter()
 }

@@ -1,57 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="4dp"
-    >
+    android:animateLayoutChanges="true">
 
 
-   <com.google.android.material.card.MaterialCardView
-       android:id="@+id/cv_score"
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recent_scores"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        app:layout_constraintTop_toTopOf="parent"
-      app:cardBackgroundColor="@color/score_card_color"
-       android:elevation="16dp"
-       app:cardCornerRadius="16dp"
-       >
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:gravity="center"
-          >
-         <ImageView
-             android:layout_width="108dp"
-             android:layout_height="108dp"
-             android:layout_marginTop="4dp"
-             android:src="@drawable/_x1"
-             />
-         <TextView
-             android:id="@+id/tv_title_score"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="60sp"
-             android:text="Best score"
-             android:textStyle="bold"
-             />
-         <TextView
-             android:id="@+id/tv_score"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="100sp"
-             android:text="score"
-             android:textStyle="bold"
-             android:textColor="#1C6758"
-             />
+      tools:listitem="@layout/item_score"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       android:orientation="vertical"
+       android:visibility="gone"
+       />
 
+   <TextView
+      android:id="@+id/retreive_status"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:textAlignment="center"
+       android:text=""
+       android:gravity="center"
 
-
-      </LinearLayout>
-
-   </com.google.android.material.card.MaterialCardView>
+       />
 
 
 

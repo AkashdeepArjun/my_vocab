@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
 
 interface BaseDao {
@@ -16,8 +17,13 @@ interface BaseDao {
     suspend fun insert(vocab: List<Vocab>)
 
     suspend fun deleteAll()
+
     suspend fun delete(vocab: Vocab)
 
+    suspend fun saveScore(score: Score)
 
+    suspend fun getAllScores():List<Score>
+
+    suspend fun deleteAllScores()
 
 }

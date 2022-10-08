@@ -157,7 +157,7 @@ class FragInQuizGame :Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         enableBottomNav()
-//        viewmodel.resetQuizData()
+        viewmodel.resetQuizData()
 
     }
                     //   QUIZ LOGIC
@@ -419,40 +419,44 @@ class FragInQuizGame :Fragment() {
 
 
 
-         fun resetQuestionCounter() {
-             question_counter = 1
-         }
+//         fun resetQuestionCounter() {
+//             question_counter = 1
+//         }
 
-         fun subToData() {
-
-             viewmodel.clock_timer.observe(viewLifecycleOwner, Observer { state ->
-                 if (state is TimerState.DONE) {
-                     logicQuiz()
-                     viewmodel.clock_timer.removeObservers(this)
-                 }
-                 if (state is TimerState.RUNNING) {
-                     binding!!.tvClock.text = state.message
-                 }
-             })
-
-         }
+//         fun subToData() {
+//
+//             viewmodel.clock_timer.observe(viewLifecycleOwner, Observer { state ->
+//                 if (state is TimerState.DONE) {
+//                     logicQuiz()
+//                     viewmodel.clock_timer.removeObservers(this)
+//                 }
+//                 if (state is TimerState.RUNNING) {
+//                     binding!!.tvClock.text = state.message
+//                 }
+//             })
+//
+//         }
 
 
          fun setupTest() {
              when (args.testType) {
                  1 -> {
-
+                    viewmodel.current_type="Rapid Test"
+                     viewmodel.total_questions=10
                      startQuiz(10,10)
 
                  }
                  2 -> {
 //                binding!!.tvWordsCount.text="1/${((viewmodel).fetched_vocabs.size/2)}"
-
+                     viewmodel.current_type="Progressor Test"
+                     viewmodel.total_questions=viewmodel.fetched_vocabs.size/2
                      startQuiz((viewmodel.fetched_vocabs.size/ 2),10)
 
                  }
                  else -> {
 //                binding!!.tvWordsCount.text="1/${viewmodel.fetched_vocabs.size}"
+                     viewmodel.current_type="Scholar Test"
+                     viewmodel.total_questions=viewmodel.fetched_vocabs.size
                      startQuiz(viewmodel.fetched_vocabs.size,10)
                  }
              }

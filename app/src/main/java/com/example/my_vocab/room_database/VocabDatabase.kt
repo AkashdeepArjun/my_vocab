@@ -4,17 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.my_vocab.DateConvertorHelper
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
 import com.example.my_vocab.repo.VocabDao
 import timber.log.Timber
 
-@Database(entities = arrayOf(Vocab::class), version = 1, exportSchema = false)
+@Database(entities = [Vocab::class, Score::class], version = 2, exportSchema = false)
+@TypeConverters(DateConvertorHelper::class)
 abstract class VocabDatabase:RoomDatabase() {
 
     abstract fun vocabDao():VocabDao
-
-
-
     companion object{
 
 
@@ -25,7 +26,9 @@ abstract class VocabDatabase:RoomDatabase() {
             return INSTANCE?: synchronized(this){
                 val instance= Room.databaseBuilder(context.applicationContext,
                 VocabDatabase::class.java,"my_vocab_database"
-                    ).build()
+                    )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE=instance
                 Timber.tag("ROOM DATABASE CREATION").v("INSTANCE CREATED WITH HASHCODE ${INSTANCE.hashCode()}")
                 instance

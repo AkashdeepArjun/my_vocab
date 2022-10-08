@@ -6,6 +6,7 @@ import androidx.camera.core.impl.CameraRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.repo.VocabRepo
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,7 +25,11 @@ class MyViewModelFactory @Inject constructor( val application: Application,val r
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if(modelClass.isAssignableFrom(SharedViewModel::class.java)){
             SharedViewModel(application,repo) as T
-        }else{
+
+        } else if(modelClass.isAssignableFrom(ScoresViewModel::class.java)){
+            ScoresViewModel(repo) as T
+        }
+        else{
            throw IllegalArgumentException("no valid viewmodel found")
         }
     }

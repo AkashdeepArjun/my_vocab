@@ -5,6 +5,7 @@ import android.view.Display
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.room.TypeConverter
 import java.lang.Exception
 
 sealed class UserProcessState{
@@ -53,6 +54,16 @@ sealed class TimerState{
 
 }
 
+sealed class WorkProgressState{
+
+    data class STARTED(val message: String?):WorkProgressState()
+    data class RUNNNIN(val message: String?):WorkProgressState()
+    data class SUCCESS(val message: String?):WorkProgressState()
+    data class FAILED(val message: String):WorkProgressState()
+
+
+}
+
 
 
 
@@ -66,5 +77,18 @@ fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner,observer:(T)->Unit){
         })
 
 
+
+}
+
+class DateConvertorHelper{
+    @TypeConverter
+    fun fromTimeStamp(value:Long?): java.util.Date?{
+        return value?.let { java.util.Date(it)}
+    }
+
+    @TypeConverter
+    fun dateToTimeStamp(date:java.util.Date?):Long?{
+        return date?.time?.toLong()
+    }
 
 }
