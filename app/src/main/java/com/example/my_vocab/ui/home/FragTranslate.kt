@@ -235,6 +235,7 @@ class FragTranslate:Fragment() {
                                            Toast.makeText(this.context,"success xD",Toast.LENGTH_SHORT).show()
 
 //                                            this.findNavController().navigate(FragTranslateDirections.actionFragTranslateToFragHome(state.size))
+                                            vm.deleteUnusedImage()
                                             this.findNavController().popBackStack(R.id.frag_home,false,false)
 
                                         }

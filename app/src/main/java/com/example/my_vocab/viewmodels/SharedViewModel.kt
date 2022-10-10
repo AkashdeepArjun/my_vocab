@@ -28,6 +28,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.io.Closeable
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -190,13 +191,6 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
     }
 
-
-                // CLOSES THE TRANSLATOR OBJECT WHEN IT IS NOT REQUIRED
-
-
-
-
-                // PHOTO URI  SETTING UTILITY
                 fun setUpPhotoUri(uri: Uri?){
                     this.uri=uri
 
@@ -208,8 +202,8 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
                     this.input_image=InputImage.fromFilePath(application.baseContext,this.uri!!)
 
-                }catch (exception:Exception){
-                    Log.wtf(TAG,"INPUT IMAGE PREPARATION FAILED :${exception.message}")
+                }catch (exception:Exception) {
+                    Timber.tag(TAG).wtf("INPUT IMAGE PREPARATION FAILED :%s", exception.message)
                 }
             }
 
@@ -266,8 +260,13 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
      }
 
+        fun deleteUnusedImage(){
+
+            val content_resolver=application.contentResolver
+            content_resolver.delete(this.uri!!,null,null)
 
 
+        }
 
     override fun onCleared() {
         super.onCleared()
@@ -275,6 +274,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         resetEverything()
         Toast.makeText(application.baseContext,"viewmodel cleared",Toast.LENGTH_SHORT).show()
         closeTranslater()
+
     }
 
 
@@ -360,26 +360,31 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
      fun translateSelectedWords()=viewModelScope.launch(Dispatchers.IO) {
 
-        _translate_status.postValue(TranslateMultipleWordsStatus.Loading())
+         _translate_status.postValue(TranslateMultipleWordsStatus.Loading())
 
-        if(selected_words.isEmpty()){
-            _translate_status.postValue(TranslateMultipleWordsStatus.Error("selected word is empty"))
-        }
-        Log.e("VIEWMODEL","selected words are ${selected_words}")
-         var target_string=selected_words.joinToString(separator = ", ", prefix = "", postfix = ""){it->it }
-         eng_to_hindi_translator!!.translate(target_string).addOnSuccessListener {
-             translated_string->
-             val list=translated_string.split(",").toMutableList()
-             Log.e("VIEWMODEL ","list is ${list}")
-             var index=0
-             while(index<list.size){
-                 translated_words.put(selected_words[index],list[index])
-                 index++
-             }
-             list.clear()
+         if (selected_words.isEmpty()) {
+             _translate_status.postValue(TranslateMultipleWordsStatus.Error("selected word is empty"))
+         }
+         Timber.tag("VIEWMODEL").e("selected words are " + selected_words)
+         val target_string =
+             selected_words.joinToString(separator = ", ", prefix = "", postfix = "") { it -> it }
+         eng_to_hindi_translator!!.translate(target_string)
+             .addOnSuccessListener { translated_string ->
+                 val list = translated_string.split(",").toMutableList()
+                 Log.e("VIEWMODEL ", "list is ${list}")
+                 var index = 0
+                 while (index < list.size) {
+                     translated_words.put(selected_words[index], list[index])
+                     index++
+                 }
+                 list.clear()
 
-            _translate_status.postValue(TranslateMultipleWordsStatus.Success())
-         }.addOnFailureListener { _translate_status.postValue(TranslateMultipleWordsStatus.Error("wtf happened")) }
+                 _translate_status.postValue(TranslateMultipleWordsStatus.Success())
+             }.addOnFailureListener {
+             _translate_status.postValue(
+                 TranslateMultipleWordsStatus.Error("wtf happened")
+             )
+         }
 
 
     }

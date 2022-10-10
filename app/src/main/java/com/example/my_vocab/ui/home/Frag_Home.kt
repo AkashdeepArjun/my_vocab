@@ -91,10 +91,11 @@ class Frag_Home:Fragment() {
                         this.findNavController().navigate(Frag_HomeDirections.actionFragHomeToFragCapture())
 
                     }
+
                 }
 
-
                     //SUBSCRIBE TO CHANGES TO DATA
+
     fun subToLiveData(){
 
         vm.fethed_vocab_state.observe(viewLifecycleOwner, Observer {
@@ -122,13 +123,9 @@ class Frag_Home:Fragment() {
     }
 
     fun showSnackBar(message:String){
+
         snackbar=Snackbar.make(binding!!.root,message,Snackbar.LENGTH_SHORT)
 
     }
-
-
-
-
-
 
 }

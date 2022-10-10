@@ -191,6 +191,8 @@ class Frag_capture:Fragment() {
 
             }
 
+
+
 //            override fun onCaptureSuccess(image: ImageProxy) {
 //                super.onCaptureSuccess(image)
 ////                val photo_link:Uri?=image.
