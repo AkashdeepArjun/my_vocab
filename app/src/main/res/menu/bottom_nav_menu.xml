@@ -15,7 +15,7 @@
         />
 
     <item android:id="@+id/frag_score"
-        android:title="score"
+        android:title="my perfomance"
         android:icon="@drawable/ic_score"
         app:showAsAction="always"/>
 

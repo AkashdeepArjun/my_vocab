@@ -114,6 +114,10 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
+            //SPLASH SCREEN API
     implementation "androidx.core:core-splashscreen:1.0.0"
 
+
+        //LOTTIEFILES
+    implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
 }

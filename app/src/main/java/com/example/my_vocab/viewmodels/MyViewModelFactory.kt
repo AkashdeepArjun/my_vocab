@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.repo.VocabRepo
+import com.google.mlkit.nl.translate.Translator
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
-class MyViewModelFactory @Inject constructor( val application: Application,val repo: VocabRepo):
+class MyViewModelFactory @Inject constructor( val application: Application,val repo: VocabRepo,val translator: Translator):
 
     ViewModelProvider.Factory {
 
@@ -24,10 +25,13 @@ class MyViewModelFactory @Inject constructor( val application: Application,val r
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if(modelClass.isAssignableFrom(SharedViewModel::class.java)){
-            SharedViewModel(application,repo) as T
+            SharedViewModel(application,repo,translator) as T
 
         } else if(modelClass.isAssignableFrom(ScoresViewModel::class.java)){
             ScoresViewModel(repo) as T
+        }
+        else if(modelClass.isAssignableFrom(AppStarterViewModel::class.java)){
+            AppStarterViewModel(translator) as T
         }
         else{
            throw IllegalArgumentException("no valid viewmodel found")

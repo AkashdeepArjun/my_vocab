@@ -1,5 +1,6 @@
 package com.example.my_vocab.ui.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.net.Uri
@@ -11,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -30,12 +33,21 @@ import java.util.concurrent.ExecutorService
 @AndroidEntryPoint
 class Frag_capture:Fragment() {
 
+    private var activity_result_launcher: ActivityResultLauncher<Array<String>>?=null
     private lateinit var logger: DebugLogger
+    private var required_permissions_granted=false
+
+
 
     companion object{
 
         private const val FRAGMENT_TAG="CAPTURE PHOTO FRAGMENT"
         private const val FILE_FORMAT="yyyy-MM-dd-HH-mm-ss-SSS"
+        val REQUIRED_PERMISSIONS= mutableListOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ).toTypedArray()
     }
 
     private var snackbar: Snackbar?=null
@@ -64,6 +76,7 @@ class Frag_capture:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpActivityResultLauncher()
         init_Camera()
         setupListeners()
         setUpSnackBar()
@@ -74,9 +87,14 @@ class Frag_capture:Fragment() {
 
             // starts the camera
     private fun init_Camera(){
-        start_camera()
 
+        if(!required_permissions_granted){
+            activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
+        }else{
+            start_camera()
+        }
 
+//            start_camera()
     }
 
 
@@ -223,5 +241,27 @@ class Frag_capture:Fragment() {
 
 
     }
+
+
+    fun setUpActivityResultLauncher()
+    {
+
+        activity_result_launcher=registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+                permissions->
+
+           required_permissions_granted= permissions.entries.all {
+                it.value==true
+            }
+            if(required_permissions_granted){
+                start_camera()
+            }
+
+
+        }
+
+
+    }
+
+
 
 }

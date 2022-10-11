@@ -89,7 +89,7 @@
     <fragment android:id="@+id/frag_score"
         android:name="com.example.my_vocab.ui.score.FragScore"
         tools:layout="@layout/frag_score"
-        android:label="score"
+        android:label="my perfomance"
         >
 
 

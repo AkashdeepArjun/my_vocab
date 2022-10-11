@@ -8,6 +8,10 @@ import com.example.my_vocab.repo.VocabDao
 import com.example.my_vocab.repo.VocabRepo
 import com.example.my_vocab.room_database.VocabDatabase
 import com.example.my_vocab.viewmodels.MyViewModelFactory
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,9 +53,29 @@ object AppModule {
                                 //PROVIDES SINGLETON VIEWMODEL FACTORY
         @Singleton
         @Provides
-        fun provideVmf(application: Application,repo: VocabRepo)=MyViewModelFactory(application,repo)
+        fun provideVmf(application: Application,repo: VocabRepo,translator: Translator)=MyViewModelFactory(application,repo,translator)
 
         @Singleton
         @Provides
         fun provideAdapter()=ScoresAdapter()
+
+
+                        //TRANSLATOR OPTIONS
+
+        @Singleton
+        @Provides
+        fun provideTranslatorOptions():TranslatorOptions =TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.ENGLISH)
+                .setTargetLanguage(TranslateLanguage.HINDI)
+                .build()
+
+
+                //PROVIDES TRANSLATOR
+
+        @Singleton
+        @Provides
+        fun provideTranslator(options:TranslatorOptions):Translator=Translation.getClient(options)
+
+
+
 }

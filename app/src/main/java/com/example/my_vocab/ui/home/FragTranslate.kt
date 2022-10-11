@@ -122,26 +122,7 @@ class FragTranslate:Fragment() {
 
 
     fun addSubs(){
-        binding!!.pbTranslatingWords.visibility=View.VISIBLE
-        binding!!.errorTranslationMessage.visibility=View.GONE
-        binding
-        vm.is_translator_available.observe(viewLifecycleOwner, Observer{
-            state->
-            if(state is ModelDownloadState.Loading){
-                binding!!.pbTranslatingWords.visibility=View.VISIBLE
-                binding!!.errorTranslationMessage.visibility=View.GONE
-            }else if(state is ModelDownloadState.Successs){
 
-                binding!!.pbTranslatingWords.visibility=View.GONE
-                binding!!.errorTranslationMessage.visibility=View.GONE
-
-            }
-            else{
-                binding!!.pbTranslatingWords.visibility=View.GONE
-                binding!!.errorTranslationMessage.visibility=View.VISIBLE
-            }
-
-        })
 
         vm.translate_status.observe(viewLifecycleOwner, Observer { state ->
             if (state is TranslateMultipleWordsStatus.Loading) {

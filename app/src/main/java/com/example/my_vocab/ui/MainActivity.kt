@@ -38,11 +38,12 @@ class MainActivity : AppCompatActivity() {
 
         //permissions granted or not
 
-    private var activity_result_launcher: ActivityResultLauncher<Array<String>>?=null
+
 
 
     @Inject
     lateinit var vmf:MyViewModelFactory
+
     private lateinit var viemodel:SharedViewModel
     var logger: DebugLogger?=null
     companion object{
@@ -50,12 +51,7 @@ class MainActivity : AppCompatActivity() {
         private  const val TAG="MY VOCAB APP"
         private const val FILE_FORMAT="yyyy-MM-dd-HH-mm-ss-SSS"
         const val REQUEST_CODE_PERMISSION=364
-        val REQUIRED_PERMISSIONS= mutableListOf(Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ).toTypedArray()
+
     }
 
     private var app_bar_configuration: AppBarConfiguration?=null
@@ -63,14 +59,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nav_host_fragment: NavHostFragment
     private  var binding:ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+
         super.onCreate(savedInstanceState)
-        setUpActivityResultLauncher()
+//        setUpActivityResultLauncher()
 
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        setUpBottomNavigation()
 
-            activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
 
 
 
@@ -201,13 +197,7 @@ class MainActivity : AppCompatActivity() {
 
                 //CHECKS IF REQUIRED PERMISSIONS ARE GRANTED
 
-    fun checkAllPermissionsGranted():Boolean{
-        all_permissions_granted = REQUIRED_PERMISSIONS.all { permission->
-            ContextCompat.checkSelfPermission(baseContext,permission)== PackageManager.PERMISSION_GRANTED
 
-        }
-        return  all_permissions_granted
-    }
 
 
                 //SHOWS TOAST
@@ -247,10 +237,7 @@ class MainActivity : AppCompatActivity() {
     }
 
                 //REQUEST REQUIRED PERMISSIONS
-    private fun getAllPermissiions(){
 
-          ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSION)
-    }
 
 
 
@@ -286,7 +273,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             if(l==permissions.size){
-                showToast(this,"permissions granted!!")
+
             }
         }
     }
@@ -296,67 +283,10 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-fun setupObservers(){
-    viemodel.is_translator_available.observe(this){
-        state->
-        when(state){
-            is ModelDownloadState.Loading->{
-                binding!!.statusText.text=state.message
-            }
-            is ModelDownloadState.Successs->{
-                binding!!.permissonsUi.visibility=View.GONE
-//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
-//                binding!!.statusText.text=state.message
-
-                binding!!.bottomNavView.visibility=View.VISIBLE
-            }
-            else->{
-
-                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.error))
-                binding!!.statusText.text="error while loading translator "
-            }
-        }
-
-    }
-
-
-}
 
 
 
-    fun setUpActivityResultLauncher(){
-
-        activity_result_launcher=registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
-            permissions->
-            var l=0
-            permissions.entries.forEach {
-                if(it.value){
-                    l++
-                }
-            }
-            if(l==permissions.entries.size){
-                showToast(this,"all required permissions granted")
-                binding!!.permissonsUi.visibility=View.GONE
-
-//                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.done))
-//                binding!!.statusText.text="permisions granted"
-                binding!!.bottomNavView.visibility=View.VISIBLE
-                setUpViewModel()
-                setupObservers()
-                setUpBottomNavigation()
-                showToast(this,"permisions granted")
-            }else{
-                binding!!.permissonsUi.visibility=View.VISIBLE
-                binding!!.permissionsStatus.setImageDrawable(resources.getDrawable(R.drawable.error))
-                binding!!.bottomNavView.visibility=View.GONE
-                binding!!.statusText.text="please grant camera permissons this app needs camera to tranlate texts"
-                getAllPermissiions()
-
-            }
-
-        }
 
 
-    }
 
 }

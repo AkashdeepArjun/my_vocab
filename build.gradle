@@ -9,6 +9,7 @@ buildscript {
     }
     ext{
         roomVersion="2.4.3"
+        lottieVersion="3.4.0"
 
     }
 }

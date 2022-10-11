@@ -32,10 +32,9 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class SharedViewModel @Inject constructor(val application: Application, val repo: VocabRepo):ViewModel() {
+class SharedViewModel @Inject constructor(val application: Application, val repo: VocabRepo,val translator: Translator):ViewModel() {
 
-    private var conditions: DownloadConditions?=null
-    var eng_to_hindi_translator: Translator?=null
+
     private var options: TranslatorOptions?=null
     private var task: Task<Text>? =null
     var finished_detecting_texts=false
@@ -84,8 +83,6 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
                     //CHECK IF MODEL HAVE BEEN DOWNLOADED
 
-    private val _is_translator_available:MutableLiveData<ModelDownloadState> = MutableLiveData<ModelDownloadState>(ModelDownloadState.Loading())
-    val is_translator_available:LiveData<ModelDownloadState> =_is_translator_available
 
     companion object{
 
@@ -181,7 +178,6 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
         init_textRecognizer()               //initialize text recognizer
         setupTranslator()               // setting up and initialize the google translator
-     download_translator_model()   // downloads translator model
 //        translateWords()           // translates the selected words
         Timber.tag("VIEWMODEL HASTA WA WASTA BABY").e("VIEWMODEL INITIALIZED")
 
@@ -290,9 +286,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
 
         }
-
-
-                    //RESETS SELECTED WORDS  CALLED WHEN IT IS NO LONGER NEEDED IN FRAGMENTS
+                //RESETS SELECTED WORDS  CALLED WHEN IT IS NO LONGER NEEDED IN FRAGMENTS
 
     fun resetSelectedWords(){
         if(selected_words.isNotEmpty()){
@@ -309,31 +303,13 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             .setTargetLanguage(TranslateLanguage.HINDI)
             .build()
 
-        eng_to_hindi_translator= Translation.getClient(options!!)
+//        eng_to_hindi_translator= Translation.getClient(options!!)
 
 
     }
 
                         //DOWNLOADS TRANSLATOR MODEL
-    fun download_translator_model()=viewModelScope.launch(Dispatchers.IO){
 
-        _is_translator_available.postValue(ModelDownloadState.Loading("downloading english to hindi translator"))
-        conditions=DownloadConditions
-            .Builder()
-            .requireWifi()
-            .build()
-        eng_to_hindi_translator!!
-            .downloadModelIfNeeded(conditions!!)
-            .addOnSuccessListener {
-                _is_translator_available.postValue(ModelDownloadState.Successs("translator download success!!"))
-            }
-            .addOnFailureListener {
-            _is_translator_available.postValue(ModelDownloadState.Error(it))
-
-            }
-
-        
-    }
 
     fun resetTranslatedWords(){
         if(translated_words.size>0){
@@ -352,7 +328,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
                 // CLOSES THE TRANSLATOR
     fun closeTranslater(){
-        eng_to_hindi_translator!!.close()
+        translator!!.close()
     }
 
 
@@ -368,10 +344,10 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
          Timber.tag("VIEWMODEL").e("selected words are " + selected_words)
          val target_string =
              selected_words.joinToString(separator = ", ", prefix = "", postfix = "") { it -> it }
-         eng_to_hindi_translator!!.translate(target_string)
+         translator!!.translate(target_string)
              .addOnSuccessListener { translated_string ->
                  val list = translated_string.split(",").toMutableList()
-                 Log.e("VIEWMODEL ", "list is ${list}")
+                 Timber.tag("VIEWMODEL ").e("list is " + list)
                  var index = 0
                  while (index < list.size) {
                      translated_words.put(selected_words[index], list[index])
