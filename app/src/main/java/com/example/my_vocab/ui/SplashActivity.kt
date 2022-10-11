@@ -59,7 +59,6 @@ class SplashActivity : AppCompatActivity() {
         }
         setUpViewModel()        //SETS UP VIEW MODEL
         setupObservers()
-
         setContentView(binding!!.root)
     }
 
@@ -99,6 +98,7 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+
     fun setupObservers()
     {
         viemodel.is_translator_available.observe(this){
@@ -112,7 +112,7 @@ class SplashActivity : AppCompatActivity() {
                     binding!!.modelDownloadStatus.text=state.message
                     val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
-
+                    this.finish()
 
                 }
                 else->{
@@ -128,12 +128,15 @@ class SplashActivity : AppCompatActivity() {
 
 
 
+
     private fun getAllPermissiions(){
 
         ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
             MainActivity.REQUEST_CODE_PERMISSION
         )
     }
+
+
 
     fun checkAllPermissionsGranted():Boolean{
         val all_permissions_granted = REQUIRED_PERMISSIONS.all { permission->
