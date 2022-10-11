@@ -1,14 +1,16 @@
 package com.example.my_vocab.ui.quiz
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.compose.ui.res.colorResource
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
+import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -24,11 +26,14 @@ import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Frag_Quiz: Fragment() {
+class Frag_Quiz: Fragment() ,MenuProvider{
 
+    private var menuHost: MenuHost?=null
     var checked_option_id=0;
     private var binding:FragQuizBinding? = null
     private val vm:SharedViewModel by activityViewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +55,28 @@ class Frag_Quiz: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpOptionsMenu()
         init_instructions()
         setUpListeners()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
+
+
+    fun disabeOptionsManu(){
+        this.setMenuVisibility(false)
+    }
+
+
+    fun setUpOptionsMenu(){
+        menuHost=requireActivity()
+        menuHost!!.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.STARTED)
+
+    }
+
 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -94,7 +118,17 @@ class Frag_Quiz: Fragment() {
         }
     }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
 
+        menu.iterator().forEach {
+            it.isEnabled=false
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+        return false
+    }
 
 
 }

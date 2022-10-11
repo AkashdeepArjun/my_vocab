@@ -168,12 +168,13 @@ class Frag_capture:Fragment() {
 
 
             binding!!.capturePhotoButton.isEnabled=false
+
             //image_capture
-        val ic=image_capture?:return
+                    val ic=image_capture?:return
 
                 //file reference specified in yyyy-mm-dd format
 
-        val name=SimpleDateFormat(FILE_FORMAT, Locale.getDefault()).format(System.currentTimeMillis())
+            val name=SimpleDateFormat(FILE_FORMAT, Locale.getDefault()).format(System.currentTimeMillis())
 
                     //creating meta data for new image created
 

@@ -22,6 +22,11 @@
 <!--        <item name="windowSplashScreenIconBackgroundColor">@color/icon_sp16_background</item>-->
 
         <item name="postSplashScreenTheme">@style/Theme.My_vocab</item>
-
     </style>
+    
+    <style name="ThemeBottomNav">
+        <item name="colorPrimary">#FFCEF3</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+    
 </resources>

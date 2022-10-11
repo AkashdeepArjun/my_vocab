@@ -44,7 +44,7 @@ class Frag_Home:Fragment() {
         setUpListeners()
         vm.getAllVocabs()
         subToLiveData()
-        Toast.makeText(context,"frag home  view created",Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"frag home  view created",Toast.LENGTH_SHORT).show()
         Timber.tag("FRAG HOME").v("fragment home created with viewmodel hashcode ${vm.hashCode()}")
 //        showSnackBar("")
     }
@@ -61,18 +61,18 @@ class Frag_Home:Fragment() {
     override fun onStart() {
         super.onStart()
 //        vm.getAllVocabs()
-        Toast.makeText(context,"frag home started",Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"frag home started",Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {
         super.onStop()
-        Toast.makeText(context,"frag home stopped",Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"frag home stopped",Toast.LENGTH_SHORT).show()
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(context,"frag home destroyed",Toast.LENGTH_SHORT).show()
+
 
     }
 

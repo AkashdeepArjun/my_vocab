@@ -23,4 +23,5 @@
     <color name="quiz_scoreboard_unattempted">#5C2E7E</color>
     <color name="match_result_card_color">#937DC2</color>
     <color name="match_result_buttons">#FBF2CF</color>
+    <color name="bottom_nav_color">#FFFFDD</color>
 </resources>

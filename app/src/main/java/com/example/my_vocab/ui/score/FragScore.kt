@@ -1,10 +1,11 @@
 package com.example.my_vocab.ui.score
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -27,7 +28,21 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FragScore: Fragment() {
+class FragScore: Fragment(),MenuProvider {
+
+    private  var menuHost: MenuHost?=null
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+
+        menu.iterator().forEach {
+            it.isEnabled=false
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+        return false
+    }
 
     @Inject
     lateinit var scoresAdapter:ScoresAdapter
@@ -44,7 +59,7 @@ class FragScore: Fragment() {
         super.onCreate(savedInstanceState)
         val inflater= TransitionInflater.from(requireContext())
         exitTransition=inflater.inflateTransition(R.transition.slide_from_left)
-        enterTransition=inflater.inflateTransition(R.transition.slide_from_left)
+        enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
     }
 
     override fun onCreateView(
@@ -60,6 +75,7 @@ class FragScore: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpOptionMenu()
         setUpViewModel()
         initThings()
         subToData()
@@ -110,6 +126,14 @@ class FragScore: Fragment() {
         })
 
     }
+
+    fun setUpOptionMenu(){
+
+        menuHost=requireActivity()
+        menuHost!!.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.STARTED)
+
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
