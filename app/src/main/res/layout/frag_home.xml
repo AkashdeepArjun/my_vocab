@@ -107,6 +107,25 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         app:backgroundTint="@color/learn_new_word_color"
+    />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_my_dictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_learn"
+        android:layout_marginTop="16dp"
+        android:text="my dictionary"
+        app:cornerRadius="24dp"
+        android:padding="16dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:backgroundTint="#E0FFCD"
 
         />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.my_vocab.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
 import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.databinding.FragHomeBinding
+import com.example.my_vocab.ui.MyDictionary
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -90,6 +92,11 @@ class Frag_Home:Fragment() {
 
                         this.findNavController().navigate(Frag_HomeDirections.actionFragHomeToFragCapture())
 
+                    }
+
+                    binding!!.buttonMyDictionary.setOnClickListener {
+                        val intent=Intent(this.requireActivity(),MyDictionary::class.java)
+                        startActivity(intent)
                     }
 
                 }

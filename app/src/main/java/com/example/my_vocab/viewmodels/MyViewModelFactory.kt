@@ -32,6 +32,8 @@ class MyViewModelFactory @Inject constructor( val application: Application,val r
         }
         else if(modelClass.isAssignableFrom(AppStarterViewModel::class.java)){
             AppStarterViewModel(translator) as T
+        }else if(modelClass.isAssignableFrom(MyDictionaryViewModel::class.java)){
+            MyDictionaryViewModel(repo) as T
         }
         else{
            throw IllegalArgumentException("no valid viewmodel found")
