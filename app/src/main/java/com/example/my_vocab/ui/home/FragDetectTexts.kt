@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.utils.widget.MotionLabel
 import androidx.core.view.allViews
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
@@ -47,6 +49,10 @@ class FragDetectTexts: Fragment() {
     private val args: FragDetectTextsArgs by navArgs()
 
     private var binding: FragDetectTextsBinding? = null
+
+
+    // loop transition variable
+    var islooped=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +99,8 @@ class FragDetectTexts: Fragment() {
     fun setUpListeners() {
 
         binding!!.buttonDetectTexts.setOnClickListener {
+            binding!!.animationScan.visibility=View.VISIBLE
+            binding!!.animationScan.playAnimation()
             binding!!.buttonDetectTexts.isEnabled = false
             binding!!.textDetectionPb.visibility = View.VISIBLE
             binding!!.buttonTranslate.visibility=View.GONE
@@ -108,6 +116,8 @@ class FragDetectTexts: Fragment() {
                 vm.detect_texts(photo_uri!!)
 
                 vm.textReadState.observe(viewLifecycleOwner, Observer {  state->
+
+
                     if (state is TextDetectionState.Loading) {
                         binding!!.buttonDetectTexts.isEnabled = false
                         binding!!.textDetectionPb.visibility = View.VISIBLE
@@ -120,6 +130,8 @@ class FragDetectTexts: Fragment() {
 
 
                         if(state.list.size!=0){
+                            binding!!.animationScan.pauseAnimation()
+                            binding!!.animationScan.visibility=View.GONE
                             addTextstoChip(state.list)
 
                         }
@@ -205,6 +217,48 @@ class FragDetectTexts: Fragment() {
                 removeAllChips(binding!!.cgDetectedTexts)
                 binding!!.buttonTranslate.visibility=View.GONE
             }
+
+
+//        binding!!.motionLayout.setTransitionListener(object:MotionLayout.TransitionListener{
+//
+//            override fun onTransitionStarted(
+//                motionLayout: MotionLayout?,
+//                startId: Int,
+//                endId: Int
+//            ) {
+//
+//            }
+//
+//            override fun onTransitionChange(
+//                motionLayout: MotionLayout?,
+//                startId: Int,
+//                endId: Int,
+//                progress: Float
+//            ) {
+//
+//            }
+//
+//            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+//
+//                    if(!islooped){
+//                        motionLayout!!.transitionToStart()
+//                    }else{
+//                        motionLayout!!.transitionToEnd()
+//                    }
+//
+//                islooped=!islooped
+//
+//            }
+//
+//            override fun onTransitionTrigger(
+//                motionLayout: MotionLayout?,
+//                triggerId: Int,
+//                positive: Boolean,
+//                progress: Float
+//            ) {
+//
+//            }
+//        })
 
     }
 

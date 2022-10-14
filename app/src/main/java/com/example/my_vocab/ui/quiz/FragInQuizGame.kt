@@ -80,6 +80,7 @@ class FragInQuizGame :Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragInQuizGameBinding.inflate(inflater)
+
         return binding!!.root
     }
 

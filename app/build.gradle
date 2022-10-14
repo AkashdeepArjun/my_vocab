@@ -120,4 +120,10 @@ dependencies {
 
         //LOTTIEFILES
     implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
+
+
+        // MOTION LAYOUT
+
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+
 }

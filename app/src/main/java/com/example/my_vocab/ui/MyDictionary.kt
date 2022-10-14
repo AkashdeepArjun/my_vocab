@@ -43,6 +43,8 @@ class MyDictionary : AppCompatActivity() {
         setupSearchView()
     }
 
+
+
     private fun setUpViewModel() {
 
         viemodel = ViewModelProvider(this, vmf)[MyDictionaryViewModel::class.java]
@@ -85,7 +87,7 @@ class MyDictionary : AppCompatActivity() {
 
     fun setupSearchView() {
 
-
+        binding!!.svMyWords.queryHint=""
         val listener = object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {

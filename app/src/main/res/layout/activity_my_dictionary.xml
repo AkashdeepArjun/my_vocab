@@ -14,10 +14,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bg_search_view"
-
-
-
+        app:queryHint="search words here"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_my_words"
         android:layout_width="match_parent"
