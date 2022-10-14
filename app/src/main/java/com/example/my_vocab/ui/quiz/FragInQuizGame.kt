@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.forEach
@@ -154,6 +155,7 @@ class FragInQuizGame :Fragment() {
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,on_back_press_call_backs!!)
 
         }
+
 
     override fun onDestroy() {
         super.onDestroy()

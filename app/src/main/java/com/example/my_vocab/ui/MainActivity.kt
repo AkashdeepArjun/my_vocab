@@ -177,6 +177,8 @@ class MainActivity : AppCompatActivity() {
             app_bar_configuration= AppBarConfiguration(setOf(
                 R.id.frag_home,
                 R.id.frag_quiz,
+                R.id.frag_in_quiz_game,
+                R.id.frag_match_result,
                 R.id.frag_score
             ))
 //            app_bar_configuration= AppBarConfiguration(nav_controller.graph)

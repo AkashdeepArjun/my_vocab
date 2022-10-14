@@ -22,6 +22,7 @@
     <fragment android:id="@+id/frag_in_quiz_game"
         android:name="com.example.my_vocab.ui.quiz.FragInQuizGame"
         tools:layout="@layout/frag_in_quiz_game"
+        android:label="test quiz"
         >
         <argument
             app:argType="integer"
@@ -46,6 +47,7 @@
     <fragment android:id="@+id/frag_match_result"
         tools:layout="@layout/frag_match_result"
         android:name="com.example.my_vocab.ui.quiz.FragMatchResult"
+        android:label="result"
         >
         <argument android:name="score" app:argType="float" android:defaultValue="0.0"> </argument>
 
