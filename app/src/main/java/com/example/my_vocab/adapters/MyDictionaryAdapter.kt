@@ -86,7 +86,7 @@ class MyDictionaryAdapter(val vm:MyDictionaryViewModel):RecyclerView.Adapter<MyD
                 }else{
                     var filtered_ones= mutableListOf<Vocab>()
 
-                    filtered_ones.addAll(differ.currentList.filter { it.word.contains(char_string,true) })
+                    filtered_ones.addAll(vm.fetched_dictionary.filter { it.word.contains(char_string,true) })
 
 
                     filtered_list=filtered_ones

@@ -29,7 +29,7 @@
         <item name="colorOnPrimary">@color/black</item>
     </style>
 
-    <style name="Theme.MyDictionay" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.MyDictionay" parent="Theme.MaterialComponents.Light.DarkActionBar">
 
         <item name="colorPrimary">@color/learn_new_word_color</item>
         <!--      DEFAULT PRIMARY VARIANT   <item name="colorPrimaryVariant">@color/purple_700</item>-->

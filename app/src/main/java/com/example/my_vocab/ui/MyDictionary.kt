@@ -4,8 +4,11 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.my_vocab.R
@@ -40,7 +43,7 @@ class MyDictionary : AppCompatActivity() {
         setUpViewModel()
         setupAdapter()
         subscibe()
-        setupSearchView()
+
     }
 
 
@@ -84,10 +87,24 @@ class MyDictionary : AppCompatActivity() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.my_dictionary_menu,menu)
+        val menu_item:MenuItem?=menu!!.findItem(R.id.menu_item_search)
+        if(menu_item!=null){
 
-    fun setupSearchView() {
+                val sv=menu_item.actionView as SearchView
+                setupSearchView(sv)
+            return  true
+        }else{
+            return super.onCreateOptionsMenu(menu)
 
-        binding!!.svMyWords.queryHint=""
+        }
+
+    }
+
+
+    fun setupSearchView(sv:SearchView) {
+
         val listener = object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -104,7 +121,7 @@ class MyDictionary : AppCompatActivity() {
             }
 
         }
-        binding!!.svMyWords.setOnQueryTextListener(listener)
+            sv.setOnQueryTextListener(listener)
 //        binding!!.svMyWords.setQuery("search words here",false)
 
     }

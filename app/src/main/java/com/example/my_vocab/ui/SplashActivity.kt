@@ -72,9 +72,7 @@ class SplashActivity : AppCompatActivity() {
                 if(it.value){
                     l++
                 }
-                if(it.key==WRITE_EXTERNAL_STORAGE && it.value){
 
-                }
             }
             if(l==permissions.entries.size){
 

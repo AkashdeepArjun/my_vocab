@@ -80,7 +80,7 @@ class Frag_Home:Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(context,"frag home resume",Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"frag home resume",Toast.LENGTH_SHORT).show()
 
     }
 

@@ -35,11 +35,12 @@ class AppStarterViewModel @Inject constructor(val translator: Translator): ViewM
 
     fun download_translator_model()=viewModelScope.launch(Dispatchers.IO){
 
-        _is_translator_available.postValue(ModelDownloadState.Loading("downloading english to hindi translator"))
+        _is_translator_available.postValue(ModelDownloadState.Loading("downloading translator please be patient"))
         conditions=DownloadConditions
             .Builder()
             .requireWifi()
             .build()
+
             translator
             .downloadModelIfNeeded(conditions!!)
             .addOnSuccessListener {

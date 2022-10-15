@@ -6,7 +6,7 @@
         android:icon="@drawable/icon_search"
         android:title="search my words !!"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView|always"
         />
 
 </menu>

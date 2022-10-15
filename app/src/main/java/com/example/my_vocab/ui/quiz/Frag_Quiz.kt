@@ -53,9 +53,20 @@ class Frag_Quiz: Fragment() ,MenuProvider{
     }
 
 
+    fun checkEligibility(){
+        if(vm.fetched_vocabs.keys.size>=10){
+            binding!!.miniumWordsCheck.visibility=View.GONE
+            binding!!.quizRoot.visibility=View.VISIBLE
+        }else{
+            binding!!.miniumWordsCheck.visibility=View.VISIBLE
+            binding!!.quizRoot.visibility=View.GONE
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpOptionsMenu()
+        checkEligibility()
         init_instructions()
         setUpListeners()
     }
