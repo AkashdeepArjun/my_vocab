@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.my_vocab.ModelDownloadState
 import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.TranslateRemoteModel
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
@@ -18,7 +20,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class AppStarterViewModel @Inject constructor(val translator: Translator): ViewModel() {
+class AppStarterViewModel @Inject constructor(val manager:RemoteModelManager,val translator: Translator): ViewModel() {
 
 
     private var conditions: DownloadConditions?=null
@@ -41,8 +43,8 @@ class AppStarterViewModel @Inject constructor(val translator: Translator): ViewM
             .requireWifi()
             .build()
 
-            translator
-            .downloadModelIfNeeded(conditions!!)
+            val indian_model=TranslateRemoteModel.Builder(TranslateLanguage.HINDI).build()
+            manager.download(indian_model, conditions!!)
             .addOnSuccessListener {
                 _is_translator_available.postValue(ModelDownloadState.Successs("translator download success!!"))
             }

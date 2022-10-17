@@ -9,6 +9,7 @@ import com.example.my_vocab.repo.VocabDao
 import com.example.my_vocab.repo.VocabRepo
 import com.example.my_vocab.room_database.VocabDatabase
 import com.example.my_vocab.viewmodels.MyViewModelFactory
+import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
@@ -54,7 +55,7 @@ object AppModule {
                                 //PROVIDES SINGLETON VIEWMODEL FACTORY
         @Singleton
         @Provides
-        fun provideVmf(application: Application,repo: VocabRepo,translator: Translator)=MyViewModelFactory(application,repo,translator)
+        fun provideVmf(application: Application,repo: VocabRepo, remote_download_manager:RemoteModelManager,translator: Translator)=MyViewModelFactory(application,repo,remote_download_manager,translator)
 
                         //PROVIDES SCORES ADAPTER
         @Singleton
@@ -84,5 +85,10 @@ object AppModule {
 //        @Singleton
 //        @Provides
 //        fun provideVocabAdapter():MyDictionaryAdapter=MyDictionaryAdapter()
+
+
+        @Singleton
+        @Provides
+        fun provideModelManager()=RemoteModelManager.getInstance()
 
 }

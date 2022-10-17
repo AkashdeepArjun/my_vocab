@@ -8,12 +8,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.repo.VocabRepo
+import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.Translator
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
-class MyViewModelFactory @Inject constructor( val application: Application,val repo: VocabRepo,val translator: Translator):
+class MyViewModelFactory @Inject constructor( val application: Application,
+                                              val repo: VocabRepo,
+                                              val remote_download_manager:RemoteModelManager,
+                                              val translator: Translator):
 
     ViewModelProvider.Factory {
 
@@ -31,7 +35,7 @@ class MyViewModelFactory @Inject constructor( val application: Application,val r
             ScoresViewModel(repo) as T
         }
         else if(modelClass.isAssignableFrom(AppStarterViewModel::class.java)){
-            AppStarterViewModel(translator) as T
+            AppStarterViewModel(remote_download_manager,translator) as T
         }else if(modelClass.isAssignableFrom(MyDictionaryViewModel::class.java)){
             MyDictionaryViewModel(repo) as T
         }

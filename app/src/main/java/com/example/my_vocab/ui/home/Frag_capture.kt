@@ -3,6 +3,7 @@ package com.example.my_vocab.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -25,6 +26,7 @@ import androidx.transition.TransitionInflater
 import com.example.my_vocab.DebugLogger
 import com.example.my_vocab.databinding.FragCaptureBinding
 import com.example.my_vocab.ui.MainActivity
+import com.example.my_vocab.ui.SplashActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -88,8 +90,9 @@ class Frag_capture:Fragment() {
             // starts the camera
     private fun init_Camera(){
 
-        if(!required_permissions_granted){
-            activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
+        if(!checkAllPermissionsGranted()){
+            binding!!.grantPermissionButton.visibility=View.VISIBLE
+            binding!!.tvPermissionInfo.visibility=View.VISIBLE
         }else{
             start_camera()
         }
@@ -99,6 +102,12 @@ class Frag_capture:Fragment() {
 
 
     private fun setupListeners(){
+
+        binding!!.grantPermissionButton.setOnClickListener {
+
+
+            activity_result_launcher!!.launch(REQUIRED_PERMISSIONS)
+        }
 
         binding!!.capturePhotoButton.setOnClickListener {
             view->
@@ -251,10 +260,16 @@ class Frag_capture:Fragment() {
                 permissions->
 
            required_permissions_granted= permissions.entries.all {
-                it.value==true
+               it.value
             }
             if(required_permissions_granted){
+                binding!!.grantPermissionButton.visibility=View.GONE
+                binding!!.tvPermissionInfo.visibility=View.GONE
                 start_camera()
+            }
+            else{
+                binding!!.grantPermissionButton.visibility=View.VISIBLE
+                binding!!.tvPermissionInfo.visibility=View.VISIBLE
             }
 
 
@@ -262,7 +277,13 @@ class Frag_capture:Fragment() {
 
 
     }
+    fun checkAllPermissionsGranted():Boolean{
+        val all_permissions_granted = SplashActivity.REQUIRED_PERMISSIONS.all { permission->
+            ContextCompat.checkSelfPermission(context!!,permission)== PackageManager.PERMISSION_GRANTED
 
+        }
+        return all_permissions_granted
+    }
 
 
 }

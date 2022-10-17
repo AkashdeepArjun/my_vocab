@@ -33,11 +33,12 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var viemodel:AppStarterViewModel
 
 
+    private var progress:Float=0.0f
+
     companion object{
 
         val REQUIRED_PERMISSIONS= mutableListOf(
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
             Manifest.permission.INTERNET,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             WRITE_EXTERNAL_STORAGE
@@ -103,17 +104,21 @@ class SplashActivity : AppCompatActivity() {
                 state->
             when(state){
                 is ModelDownloadState.Loading->{
+                    binding!!.pbModelDownload.show()
                     binding!!.modelDownloadStatus.text=state.message
                 }
                 is ModelDownloadState.Successs->{
 
+                    binding!!.pbModelDownload.hide()
                     binding!!.modelDownloadStatus.text=state.message
+
                     val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
                     this.finish()
 
                 }
                 else->{
+                    binding!!.pbModelDownload.hide()
                     binding!!.modelDownloadStatus.text="error !! while downloading model"
 
                 }
