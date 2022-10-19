@@ -7,6 +7,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.room.TypeConverter
 import java.lang.Exception
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.util.*
+import kotlin.math.absoluteValue
+import kotlin.math.floor
+import kotlin.math.log10
+import kotlin.math.pow
 
 sealed class UserProcessState{
     data class Success(val size:Int):UserProcessState()
@@ -91,4 +98,55 @@ class DateConvertorHelper{
         return date?.time?.toLong()
     }
 
+
+    object  MyUtils{
+
+        fun NumToString(num:Int):String{
+            val format=DecimalFormat("##.#")
+            val power_of_ten: Double = floor(log10(num.toDouble()))
+            val number_of_digits=power_of_ten+1
+            if(power_of_ten<=2.0)
+            {
+                return num.toString()
+            }
+            var result:String=""
+
+            when(power_of_ten){
+                in 3.0 ..5.0->{
+
+                    format.roundingMode=RoundingMode.DOWN
+                    val d:Double= (num/ (10.0.pow(3.0))).absoluteValue
+//                val res= String.format(Locale.getDefault(),"%.1f",d).toDouble()
+                    val res=format.format(d)
+                    result=res.toString()+"K"
+                }
+                in 6.0 ..8.0->{
+
+                    format.roundingMode=RoundingMode.DOWN
+                    val d:Double= (num/ (10.0.pow(6.0))).absoluteValue
+//                val res= String.format(Locale.getDefault(),"%.1f",d).toDouble()
+                    val res=format.format(d)
+                    result=res.toString()+"M"
+
+                }
+                in 9.0..Double.MAX_VALUE ->{
+                    format.roundingMode=RoundingMode.DOWN
+                    val d:Double= (num/ (10.0.pow(9.0))).absoluteValue
+//                val res= String.format(Locale.getDefault(),"%.1f",d).toDouble()
+                    val res=format.format(d)
+                    result=res.toString()+"B"
+
+                }
+                else->{}
+            }
+
+
+            return result
+        }
+    }
+
+
+
 }
+
+

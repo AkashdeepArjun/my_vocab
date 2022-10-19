@@ -31,6 +31,8 @@ import timber.log.Timber
 import java.io.Closeable
 import java.io.File
 import javax.inject.Inject
+import kotlin.math.floor
+import kotlin.math.log10
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(val application: Application, val repo: VocabRepo,val translator: Translator):ViewModel() {
@@ -258,9 +260,11 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
      }
 
         fun deleteUnusedImage(){
+            if(this.uri!=null){
+                val content_resolver=application.contentResolver
+                content_resolver.delete(this.uri!!,null,null)
+            }
 
-            val content_resolver=application.contentResolver
-            content_resolver.delete(this.uri!!,null,null)
 
 
         }
@@ -447,5 +451,8 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         }
             .onFailure { _save_score_status.postValue(WorkProgressState.FAILED("deletion failed!!")) }
     }
+
+
+
 }
 

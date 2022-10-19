@@ -19,6 +19,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ import com.example.my_vocab.DebugLogger
 import com.example.my_vocab.databinding.FragCaptureBinding
 import com.example.my_vocab.ui.MainActivity
 import com.example.my_vocab.ui.SplashActivity
+import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -39,6 +41,7 @@ class Frag_capture:Fragment() {
     private lateinit var logger: DebugLogger
     private var required_permissions_granted=false
 
+    private val vm:SharedViewModel by activityViewModels()
 
 
     companion object{
@@ -60,6 +63,7 @@ class Frag_capture:Fragment() {
     private lateinit var camera_executor:ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         val inflator=TransitionInflater.from(requireContext())
         enterTransition=inflator.inflateTransition(com.example.my_vocab.R.transition.slide_from_right)
@@ -77,6 +81,7 @@ class Frag_capture:Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         setUpActivityResultLauncher()
         init_Camera()
@@ -283,6 +288,11 @@ class Frag_capture:Fragment() {
 
         }
         return all_permissions_granted
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        vm.deleteUnusedImage()
     }
 
 
