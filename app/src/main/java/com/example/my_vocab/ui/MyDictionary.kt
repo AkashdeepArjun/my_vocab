@@ -31,8 +31,6 @@ class MyDictionary : AppCompatActivity() {
     @Inject
     lateinit var vmf: MyViewModelFactory
 
-
-
     private lateinit var viemodel: MyDictionaryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

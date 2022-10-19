@@ -15,17 +15,36 @@
         app:layout_constraintTop_toTopOf="@id/horizontal_guide"
         />
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/camera_preview"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/capture_photo_layout"
         android:layout_width="match_parent"
         android:layout_height="260dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/helper_text"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/helper_text" />
+
+        >
+        <androidx.camera.view.PreviewView
+            android:id="@+id/camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_photo_capture_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/photo_capture_animation"
+            android:visibility="gone"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
     <com.google.android.material.button.MaterialButton
@@ -35,7 +54,9 @@
         android:text="capture text area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/camera_preview" />
+        app:layout_constraintTop_toBottomOf="@id/capture_photo_layout"
+        app:cornerRadius="24dp"
+        />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -79,6 +100,22 @@
         android:visibility="gone"
         />
 
+    <TextView
+        android:id="@+id/tv_title_capture_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_guide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="capture Photo "
+        android:textSize="40sp"
+        android:fontFamily="@font/disney_font_1"
+        android:textColor="@color/black"
+        android:background="@drawable/paint_green"
+        android:textAlignment="center"
+        android:padding="8dp"
+        />
 
 
 

@@ -71,9 +71,6 @@ sealed class WorkProgressState{
 
 }
 
-
-
-
 fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner,observer:(T)->Unit){
 
     observe(owner,object :Observer<T>{

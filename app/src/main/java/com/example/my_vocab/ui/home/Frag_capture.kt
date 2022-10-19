@@ -56,6 +56,7 @@ class Frag_capture:Fragment() {
     }
 
     private var snackbar: Snackbar?=null
+
     private var binding:FragCaptureBinding? = null
 
     private var image_capture:ImageCapture? = null
@@ -182,6 +183,8 @@ class Frag_capture:Fragment() {
 
 
             binding!!.capturePhotoButton.isEnabled=false
+            binding!!.lottiePhotoCaptureAnimation.visibility=View.VISIBLE
+            snackbar!!.show()
 
             //image_capture
                     val ic=image_capture?:return
@@ -207,12 +210,13 @@ class Frag_capture:Fragment() {
         val outputOptions=ImageCapture
             .OutputFileOptions.Builder(requireActivity().contentResolver,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,content_values)
             .build()
-        snackbar!!.show()
 
         ic.takePicture(outputOptions,ContextCompat.getMainExecutor(this.requireActivity().baseContext),object:ImageCapture.OnImageSavedCallback{
              override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
 //
                  binding!!.capturePhotoButton.isEnabled=true
+                 binding!!.lottiePhotoCaptureAnimation.cancelAnimation()
+                 binding!!.lottiePhotoCaptureAnimation.visibility=View.GONE
                  snackbar!!.setText("proces complete!").setDuration(Snackbar.LENGTH_LONG)
                  snackbar!!.dismiss()
                  val uri:Uri?=outputFileResults.savedUri

@@ -14,8 +14,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="@drawable/bg_test_type_title"
-        android:gravity="start|center"
+        android:background="@drawable/bg_type_of_quiz"
+        android:gravity="center"
         >
 
         <ImageView
@@ -27,12 +27,14 @@
 
         <TextView
             android:id="@+id/tv_type_of_test"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:text="test type goes here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:layout_gravity="center"
+            android:fontFamily="@font/disney_font_1"
+            android:textColor="@color/black"
+            android:gravity="center"
             />
     </LinearLayout>
     <TextView
@@ -41,13 +43,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/test_title_container"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/rectangular_bg"
-        android:text="current_word_count/10"
+        android:background="@drawable/word_count"
+        android:text="word_count/total words"
         android:textSize="12sp"
         android:textStyle="bold"
         android:padding="8dp"
         android:textAlignment="center"
         android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:gravity="center"
         />
 
     <TextView
@@ -56,37 +60,76 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/test_title_container"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bg_clock"
-        android:text=""
+        android:background="@drawable/paint_island_color"
+        android:text="54"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="8dp"
         android:layout_marginEnd="4dp"
         android:textAlignment="center"
         android:layout_marginTop="8dp"
-
+        android:gravity="center"
+        android:textColor="@color/black"
         />
+
+        <TextView
+            android:id="@+id/title_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seconds Left"
+            app:layout_constraintTop_toBottomOf="@id/tv_clock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_clock"
+           android:textColor="@color/black"
+            />
+
+
+    <TextView
+        android:id="@+id/title_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Word"
+        app:layout_constraintTop_toBottomOf="@id/tv_clock"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/disney_font_2"
+        android:textColor="@color/black"
+        android:background="@drawable/paint_bilkul_light_gray"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        />
+
+
 
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cv_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_words_count"
+            app:layout_constraintTop_toBottomOf="@id/title_word"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:animateLayoutChanges="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             />
 
     <TextView
         android:id="@+id/title_meanings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="options"
+        android:text="@string/choose_correct_one"
         app:layout_constraintTop_toBottomOf="@id/in_game_horizontal_guide"
-        android:textSize="40sp"
-        android:textStyle='bold'
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/disney_font_1"
+        android:textColor="@color/black"
+        android:background="@drawable/paint_light_cream2"
+        android:textAlignment="center"
+        android:gravity="center"
         />
 
     <com.google.android.material.chip.ChipGroup

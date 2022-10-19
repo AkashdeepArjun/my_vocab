@@ -4,6 +4,7 @@
     <string name="button_learn_new_words">Learn new words</string>
     <string name="capture_hint">place the camera on text you want to scan</string>
     <string name="camera_permission_explanation">this feature needs permissions to access camera and storage</string>
+    <string name="choose_correct_one">Choose Correct One</string>
     <string-array name="instructions">
         <item>1.rapid test contains 10 of learned words\n\n</item>
         <item>2.progressor test contains half of learned words\n\n</item>

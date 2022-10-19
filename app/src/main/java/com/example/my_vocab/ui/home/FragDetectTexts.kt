@@ -321,4 +321,9 @@ class FragDetectTexts: Fragment() {
             //add detected chips to group
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        vm.deleteUnusedImage()
+    }
+
 }
