@@ -387,7 +387,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         kotlin.runCatching {
             repo.insert(words)
         }
-            .onSuccess { _saving_words_status.postValue(UserProcessState.Success(words.size))
+            .onSuccess { _saving_words_status.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(words.size)))
             words.clear()
             }
             .onFailure {
@@ -411,7 +411,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
              }
              Timber.tag("FETCHING SUCCESS 2").v("${fetched_vocabs.size} hasmap data obtained..\n")
 
-             _fethed_vocab_state.postValue(UserProcessState.Success(fetched_vocabs.size))
+             _fethed_vocab_state.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(fetched_vocabs.size)))
 
          }.onFailure {
              _fethed_vocab_state.postValue(UserProcessState.Error("error from viewmodel"))

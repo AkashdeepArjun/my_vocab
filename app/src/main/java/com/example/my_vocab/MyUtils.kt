@@ -16,7 +16,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 sealed class UserProcessState{
-    data class Success(val size:Int):UserProcessState()
+    data class Success(val size:String):UserProcessState()
     data class Error(val error_message: String?):UserProcessState()
     data class Loading(val message: String?):UserProcessState()
 

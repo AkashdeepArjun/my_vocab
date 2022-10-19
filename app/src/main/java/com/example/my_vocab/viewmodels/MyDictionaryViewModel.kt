@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.my_vocab.DateConvertorHelper
 import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.data.datamodel.Vocab
 import com.example.my_vocab.repo.VocabRepo
@@ -35,7 +36,7 @@ class MyDictionaryViewModel @Inject constructor(val repo: VocabRepo):ViewModel()
             repo.getAllVocabs()
         }.onSuccess {
             fetched_dictionary.addAll(it)
-            _state_loading_words.postValue(UserProcessState.Success(it.size))
+            _state_loading_words.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(it.size)))
 
         }.onFailure {
             _state_loading_words.postValue(UserProcessState.Error("well that is weird!!! "))
