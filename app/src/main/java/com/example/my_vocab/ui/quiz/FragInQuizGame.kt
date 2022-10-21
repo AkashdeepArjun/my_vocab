@@ -91,7 +91,7 @@ class FragInQuizGame :Fragment() {
 //        val args=FragInQuizGameArgs by navArgs<Int>()
         initTimer()
         init_title()
-        disableBottomNav()
+//        disableBottomNav()
 //        Looper.prepare()
         initThings()
         setUpListeners()
@@ -104,13 +104,7 @@ class FragInQuizGame :Fragment() {
 
                         //enable bottom nav when in game
 
-    fun disableBottomNav(){
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_view).visibility=View.GONE
-    }
-                //disable bottom nav
-    fun enableBottomNav(){
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_view).visibility=View.VISIBLE
-    }
+
 
     fun init_title(){
 
@@ -159,7 +153,7 @@ class FragInQuizGame :Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        enableBottomNav()
+//        enableBottomNav()
         viewmodel.resetQuizData()
 
     }

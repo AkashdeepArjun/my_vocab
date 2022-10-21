@@ -61,6 +61,7 @@ class Frag_Quiz: Fragment() ,MenuProvider{
             binding!!.miniumWordsCheck.visibility=View.VISIBLE
             binding!!.quizRoot.visibility=View.GONE
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +70,7 @@ class Frag_Quiz: Fragment() ,MenuProvider{
         checkEligibility()
         init_instructions()
         setUpListeners()
+
     }
 
     override fun onAttach(context: Context) {
@@ -141,6 +143,10 @@ class Frag_Quiz: Fragment() ,MenuProvider{
         return false
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 
 }
 

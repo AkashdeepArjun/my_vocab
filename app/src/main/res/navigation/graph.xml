@@ -13,10 +13,13 @@
         android:name="com.example.my_vocab.ui.home.Frag_Home"
         android:label="my words"
         tools:layout="@layout/frag_home"
+
         >
         <action
             android:id="@+id/action_frag_home_to_frag_capture"
             app:destination="@id/frag_capture"
+
+
             >
         </action>
         <action
@@ -91,8 +94,6 @@
         tools:layout="@layout/frag_score"
         android:label="my perfomance"
         >
-
-
     </fragment>
 
 

@@ -14,12 +14,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.registerForActivityResult
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.example.my_vocab.*
@@ -29,6 +31,7 @@ import com.example.my_vocab.ui.home.Frag_HomeDirections
 import com.example.my_vocab.viewmodels.MyViewModelFactory
 import com.example.my_vocab.viewmodels.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,9 +40,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
         //permissions granted or not
-
-
-
 
     @Inject
     lateinit var vmf:MyViewModelFactory
@@ -67,11 +67,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding!!.root)
         setUpBottomNavigation()
 
-
-
-
-
-                //CHECKING AND REQUESTING PERMISSIONS OLD API
+            //CHECKING AND REQUESTING PERMISSIONS OLD API
 //            if(checkAllPermissionsGranted())
 //            {
 //                showToast(this,"all required permissions granted")
@@ -107,13 +103,36 @@ class MainActivity : AppCompatActivity() {
         nav_host_fragment=supportFragmentManager.findFragmentById(R.id.frag_container) as NavHostFragment
         nav_controller=nav_host_fragment.navController
         setUpActionBarConfiguration(nav_controller)
-                  // manual handling of fragments aaa
-        setupBottomNavigationItemListener()
+
+
+        setUpBackStacks()
+//
+            setupBottomNavigationItemListener()
+
 //        binding!!.bottomNavView.setupWithNavController(nav_controller)
 
 
-
     }
+
+        fun setUpBackStacks(){
+
+            nav_controller.addOnDestinationChangedListener(object :NavController.OnDestinationChangedListener{
+
+                override fun onDestinationChanged(
+                    controller: NavController,
+                    destination: NavDestination,
+                    arguments: Bundle?
+                ) {
+                    when(destination.id){
+
+                        R.id.frag_home->{
+                            binding!!.bottomNavView.selectedItemId=R.id.frag_home
+                        }
+                        else->{}
+                    }
+                }
+            })
+        }
 
 
                                  //  LISTENS TO DESTINATION CHANGE
@@ -123,30 +142,28 @@ class MainActivity : AppCompatActivity() {
                         item->
                         when(item.itemId){
                             R.id.frag_home ->{
-                                nav_controller.popBackStack(nav_controller.graph.startDestinationId,false)
-                                binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
+//                                binding!!.mainActivityRoot.transitionToStart()
+                                nav_controller.popBackStack(item.itemId,false)
 
                                 true}
+
                             R.id.graph_quiz ->{
                                 nav_controller.popBackStack(R.id.frag_home,false)
                                 nav_controller.navigate(item.itemId)
-//                                binding!!.bottomNavView.invalidate()
-                                binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
-
                                 true
                             }
+
                             R.id.frag_score ->{
+//                                binding!!.mainActivityRoot.transitionToStart()
+//                                nav_controller.popBackStack(R.id.frag_home,false)
                                 nav_controller.popBackStack(R.id.frag_home,false)
                                 nav_controller.navigate(item.itemId)
-//                                binding!!.bottomNavView.invalidate()
-
-                                binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
-
+//
                                 true
                             }
                             else->{
 //                                item.isChecked=false
-                                false}
+                                true}
                         }
                     }
 
@@ -155,21 +172,17 @@ class MainActivity : AppCompatActivity() {
                          binding!!.bottomNavView.setOnItemReselectedListener {
 
                                  item->
-                                if(item.itemId!= R.id.frag_home){
+                                if(item.itemId==R.id.frag_home){
+                                    nav_controller.popBackStack(R.id.frag_home,false)
+
+                                }
+                             else{
                                     nav_controller.popBackStack(R.id.frag_home,false)
                                     nav_controller.navigate(item.itemId)
-                                }else{
-                                    nav_controller.popBackStack(nav_controller.graph.startDestinationId,false)
                                 }
-//                             binding!!.bottomNavView.invalidate()
-                             binding!!.bottomNavView.findViewById<BottomNavigationItemView>(item.itemId).isActivated=true
-
                              true
                              }
-
-
-
-        }
+    }
 
                                       //ACTION BAR NAVIGATION SETUP
 
@@ -185,26 +198,17 @@ class MainActivity : AppCompatActivity() {
             setupActionBarWithNavController(nav_controller,app_bar_configuration!!)
 
         }
-
-
             // GOAL:SHOWS BACK BUTTON ON ACTION BAR
 
-
-    override fun onSupportNavigateUp(): Boolean {
+ override fun onSupportNavigateUp(): Boolean {
         return nav_controller.navigateUp(app_bar_configuration!!)
     }
 
+           //CHECKS IF REQUIRED PERMISSIONS ARE GRANTED
 
+              //SHOWS TOAST
 
-
-                //CHECKS IF REQUIRED PERMISSIONS ARE GRANTED
-
-
-
-
-                //SHOWS TOAST
-
-    fun showToast(context: Context,message:String,should_be_long:Boolean=false){
+    private fun showToast(context: Context, message:String, should_be_long:Boolean=false){
         if(should_be_long){
             Toast.makeText(this,message,Toast.LENGTH_LONG).show()
         }else{
@@ -239,15 +243,10 @@ class MainActivity : AppCompatActivity() {
     }
 
                 //REQUEST REQUIRED PERMISSIONS
+ override fun onResume() {
 
-
-
-
-
-
-    override fun onResume() {
         super.onResume()
-        showToast(this,"activity resumed")
+        showToast(this,"activity resumed!!")
 
     }
 
@@ -286,9 +285,29 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun disableBottomNav(){
+        binding!!.bottomNavView.visibility=View.GONE
+    }
 
 
 
+    //disable bottom nav
+    fun enableBottomNav(){
+
+        binding!!.bottomNavView.visibility=View.VISIBLE
+
+    }
+
+    fun enableActionBar(){
+
+        supportActionBar!!.show()
+    }
+
+
+    fun disableActionBar(){
+        supportActionBar!!.hide()
+
+    }
 
 
 }

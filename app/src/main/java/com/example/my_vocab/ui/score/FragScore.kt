@@ -23,6 +23,8 @@ import com.example.my_vocab.ui.quiz.FragInQuizGameArgs
 import com.example.my_vocab.viewmodels.MyViewModelFactory
 import com.example.my_vocab.viewmodels.ScoresViewModel
 import com.example.my_vocab.viewmodels.SharedViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -137,6 +139,7 @@ class FragScore: Fragment(),MenuProvider {
 
     override fun onDestroy() {
         super.onDestroy()
+
 
     }
 }

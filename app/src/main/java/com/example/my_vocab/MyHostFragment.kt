@@ -1,9 +1,23 @@
 package com.example.my_vocab
 
-import androidx.navigation.fragment.NavHostFragment
+import android.content.Context
+import android.os.Bundle
+import androidx.navigation.NavHostController
 
-class MyHostFragment:NavHostFragment() {
+class MyController(context: Context): NavHostController(context) {
+
+
+    override fun navigateUp(): Boolean {
+        return super.navigateUp()
+    }
+
+    override fun restoreState(navState: Bundle?) {
+        super.restoreState(navState)
+    }
 
 
 
+    override fun removeOnDestinationChangedListener(listener: OnDestinationChangedListener) {
+        super.removeOnDestinationChangedListener(listener)
+    }
 }
