@@ -104,12 +104,12 @@ class SplashActivity : AppCompatActivity() {
                 state->
             when(state){
                 is ModelDownloadState.Loading->{
-                    binding!!.pbModelDownload.show()
+//                    binding!!.pbModelDownload.show()
                     binding!!.modelDownloadStatus.text=state.message
                 }
                 is ModelDownloadState.Successs->{
 
-                    binding!!.pbModelDownload.hide()
+//                    binding!!.pbModelDownload.hide()
                     binding!!.modelDownloadStatus.text=state.message
 
                     val intent= Intent(this,MainActivity::class.java)
@@ -118,7 +118,7 @@ class SplashActivity : AppCompatActivity() {
 
                 }
                 else->{
-                    binding!!.pbModelDownload.hide()
+//                    binding!!.pbModelDownload.hide()
                     binding!!.modelDownloadStatus.text="error !! while downloading model"
 
                 }
