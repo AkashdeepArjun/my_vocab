@@ -82,12 +82,11 @@ class MyDictionaryAdapter(val vm:MyDictionaryViewModel):RecyclerView.Adapter<MyD
                 val char_string=constraint?.toString()
                 if(char_string!!.isEmpty())
                 {
-                    filtered_list=vm.fetched_dictionary
+                    filtered_list=vm.all_words.value!!.toMutableList()
                 }else{
                     var filtered_ones= mutableListOf<Vocab>()
 
-                    filtered_ones.addAll(vm.fetched_dictionary.filter { it.word.contains(char_string,true) })
-
+                    filtered_ones.addAll(vm.all_words.value!!.toMutableList().filter { it.word.contains(char_string,true) })
 
                     filtered_list=filtered_ones
                 }

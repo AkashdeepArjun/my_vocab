@@ -2,20 +2,17 @@ package com.example.my_vocab.viewmodels
 
 import android.app.Application
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.my_vocab.*
 import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
-import com.example.my_vocab.repo.VocabRepo
-import com.example.my_vocab.ui.MainActivity
+import com.example.my_vocab.repo.BaseRepo
 import com.google.android.gms.tasks.Task
-import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.common.sdkinternal.model.RemoteModelDownloadManager
 import com.google.mlkit.nl.translate.TranslateLanguage
-import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.vision.common.InputImage
@@ -24,19 +21,33 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.internal.aggregatedroot.codegen._com_example_my_vocab_MyVocabApp
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.Closeable
-import java.io.File
 import javax.inject.Inject
-import kotlin.math.floor
-import kotlin.math.log10
 
 @HiltViewModel
-class SharedViewModel @Inject constructor(val application: Application, val repo: VocabRepo,val translator: Translator):ViewModel() {
+class SharedViewModel @Inject constructor(val application: Application, val repo: BaseRepo):ViewModel() {
 
+
+    @Inject
+    lateinit var translator: Translator
+
+
+    @Inject
+    lateinit var text_recognizer: TextRecognizer
+
+     //                      LIVE DATA VOCABS
+
+    private var _all_vocabs:MutableLiveData<List<Vocab>> =MutableLiveData<List<Vocab>>()
+        var all_vocabs:LiveData<List<Vocab>> = _all_vocabs
+
+
+    //                      LIVE DATA SCORES
+
+    private var _all_scores:MutableLiveData<List<Score>> = MutableLiveData<List<Score>>()
+        val all_scores:LiveData<List<Score>> = _all_scores
 
     private var options: TranslatorOptions?=null
     private var task: Task<Text>? =null
@@ -80,20 +91,14 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
             }
 
-
-
-
-
                     //CHECK IF MODEL HAVE BEEN DOWNLOADED
-
 
     companion object{
 
-        private val TAG="SHARED VIEW MODEL"
-
-        val correct_answer_point=1.0f
-        val wrong_answer_point=-1.0f
-        val unattempted_answer_point=-0.5f
+        private const val TAG="SHARED VIEW MODEL"
+        const val correct_answer_point=1.0f
+        const val wrong_answer_point=-1.0f
+        const val unattempted_answer_point=-0.5f
 
     }
 
@@ -118,7 +123,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
     private val _detection_state=TextDetectionState.Loading("loading")
 
                         // TEXT RECOGNIZER/TEXT DETECTOR
-    private var text_recognizer: TextRecognizer?=null
+
 
                         //DETECTED TEXTS STORED IN LIST
      val detected_texts:MutableList<String> = mutableListOf<String>()
@@ -174,19 +179,18 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
     val save_score_Status:LiveData<WorkProgressState> =_save_score_status
 
     init {
-        Timber.tag("VIEWMODEL").v("viewmodel instance created with hashcode ${this.hashCode()}")
-        Timber.tag("VIEWMODEL").v("application instance created with hashcode ${application.hashCode()}")
-        Timber.tag("VIEWMODEL").v("repo instance created with hashcode ${repo.hashCode()}")
+        Timber.tag("VIEW MODEL").v("viewmodel instance created with hashcode ${this.hashCode()}")
+        Timber.tag("VIEW MODEL").v("application instance created with hashcode ${application.hashCode()}")
+        Timber.tag("VIEW MODEL").v("repo instance created with hashcode ${repo.hashCode()}")
 
-
-        init_textRecognizer()               //initialize text recognizer
+             //initialize text recognizer
         setupTranslator()               // setting up and initialize the google translator
 //        translateWords()           // translates the selected words
         Timber.tag("VIEWMODEL HASTA WA WASTA BABY").e("VIEWMODEL INITIALIZED")
 
 
 
-//        getAllVocabs()
+       getAllVocabs()
 
     }
 
@@ -208,9 +212,9 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
 
                         // SETTING UP TEXT RECOGNIZER CALLED IN CONSTRUCTOR OF VIEWMODEL
-    fun init_textRecognizer(){
-        text_recognizer= TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-    }
+
+
+
 
 
                     //DETECTS TEXT IN A PHOTO URI
@@ -260,6 +264,9 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
      }
 
         fun deleteUnusedImage(){
+
+
+
             if(this.uri!=null){
                 val content_resolver=application.contentResolver
                 content_resolver.delete(this.uri!!,null,null)
@@ -346,13 +353,13 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
          if (selected_words.isEmpty()) {
              _translate_status.postValue(TranslateMultipleWordsStatus.Error("selected word is empty"))
          }
-         Timber.tag("VIEWMODEL").e("selected words are " + selected_words)
+         Timber.tag("VIEW MODEL").e("selected words are " + selected_words)
          val target_string =
              selected_words.joinToString(separator = ", ", prefix = "", postfix = "") { it -> it }
          translator!!.translate(target_string)
              .addOnSuccessListener { translated_string ->
                  val list = translated_string.split(",").toMutableList()
-                 Timber.tag("VIEWMODEL ").e("list is " + list)
+                 Timber.tag("VIEW MODEL ").e("list is " + list)
                  var index = 0
                  while (index < list.size) {
                      translated_words.put(selected_words[index], list[index])
@@ -379,48 +386,35 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
     fun save_words_to_dictionary()=viewModelScope.launch(Dispatchers.IO) {
             _saving_words_status.postValue(UserProcessState.Loading("loading..."))
-        var words= mutableListOf<Vocab>()
+        val words= mutableListOf<Vocab>()
         for(word in translated_words){
             val vocab=Vocab(word=word.key, meaning = word.value,)
             words.add(vocab)
         }
         kotlin.runCatching {
             repo.insert(words)
-        }
-            .onSuccess { _saving_words_status.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(words.size)))
+        }.onSuccess {
+            _saving_words_status.postValue(
+                UserProcessState.Success(
+                    DateConvertorHelper.MyUtils.NumToString(
+                        words.size
+                    )
+                )
+            )
             words.clear()
-            }
-            .onFailure {
+        }.onFailure {
                 _saving_words_status.postValue(UserProcessState.Error("could not save words due to reason : ${it.message}"))
                 words.clear()
             }
 
     }
 
-     fun getAllVocabs()=viewModelScope.launch(Dispatchers.IO) {
-        _fethed_vocab_state.postValue(UserProcessState.Loading("loading data....."))
-         kotlin.runCatching {
-             repo.getAllVocabs()
-         }.onSuccess {
-             list->
-             Timber.tag("FETCHING SUCCESS").v("${list.size} data obtained..\n")
-             list.forEach {
-                 vocab ->
-                 fetched_vocabs[vocab.word] = vocab.meaning
+     fun getAllVocabs()=viewModelScope.launch {
 
-             }
-             Timber.tag("FETCHING SUCCESS 2").v("${fetched_vocabs.size} hasmap data obtained..\n")
 
-             _fethed_vocab_state.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(fetched_vocabs.size)))
-
-         }.onFailure {
-             _fethed_vocab_state.postValue(UserProcessState.Error("error from viewmodel"))
-             Timber.tag(TAG).e("FETCH VOCABS ERROR\n ${it.message}")
-         }
-
+             all_vocabs=repo.getAllVocabs()
 
      }
-
 
     fun resetQuizScores(){
         score=0.0f
@@ -449,7 +443,11 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
            _save_score_status.postValue(WorkProgressState.SUCCESS(null))
         }
-            .onFailure { _save_score_status.postValue(WorkProgressState.FAILED("deletion failed!!")) }
+            .onFailure {
+                _save_score_status.postValue(WorkProgressState.FAILED("deletion failed!!"))
+
+            }
+
     }
 
 

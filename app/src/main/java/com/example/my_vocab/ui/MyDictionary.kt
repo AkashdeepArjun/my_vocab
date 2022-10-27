@@ -59,30 +59,29 @@ class MyDictionary : AppCompatActivity() {
 
     private fun subscibe() {
 
-        viemodel.state_loading_words.observe(this, Observer { state ->
-            when (state) {
-                is UserProcessState.Success -> {
-                    binding!!.fetchingStatus.setTextColor(Color.GREEN)
-                    binding!!.fetchingStatus.text = state.size.toString() + " successfully fetched"
-                    binding!!.animationView.cancelAnimation()
-                    binding!!.animationView.visibility = View.GONE
-                    binding!!.fetchingStatus.visibility = View.GONE
-                    binding!!.rvMyWords.visibility = View.VISIBLE
-                    myDictionaryAdapter.differ.submitList(viemodel.fetched_dictionary)
-                }
-                is UserProcessState.Loading -> {
-                    binding!!.fetchingStatus.setTextColor(Color.MAGENTA)
-                    binding!!.fetchingStatus.text = state.message
-                }
-                is UserProcessState.Error -> {
 
-                    binding!!.fetchingStatus.setTextColor(Color.RED)
-                    binding!!.fetchingStatus.text = state.error_message
 
-                }
+        viemodel.all_words.observe(this, Observer {
+            list->
+            if(list.isNotEmpty()){
+                binding!!.fetchingStatus.setTextColor(Color.GREEN)
+                binding!!.fetchingStatus.text = list.size.toString() + " successfully fetched"
+                binding!!.animationView.cancelAnimation()
+                binding!!.animationView.visibility = View.GONE
+                binding!!.fetchingStatus.visibility = View.GONE
+                binding!!.rvMyWords.visibility = View.VISIBLE
+                myDictionaryAdapter.differ.submitList(list)
+
+            }else{
+
+                binding!!.fetchingStatus.setTextColor(Color.MAGENTA)
+                binding!!.fetchingStatus.text = "loading dictionary"
+
+
             }
 
         })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

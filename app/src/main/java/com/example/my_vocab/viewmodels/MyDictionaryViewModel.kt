@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.my_vocab.DateConvertorHelper
 import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.data.datamodel.Vocab
+import com.example.my_vocab.repo.BaseRepo
 import com.example.my_vocab.repo.VocabRepo
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -14,13 +15,13 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
-class MyDictionaryViewModel @Inject constructor(val repo: VocabRepo):ViewModel(){
+class MyDictionaryViewModel @Inject constructor(val repo: BaseRepo):ViewModel(){
 
-    private val _state_loading_words:MutableLiveData<UserProcessState> = MutableLiveData(UserProcessState.Loading("loading...."))
-    val state_loading_words:LiveData<UserProcessState>  = _state_loading_words
+    private val _all_words:MutableLiveData<List<Vocab>> = MutableLiveData<List<Vocab>>()
+    var all_words:LiveData<List<Vocab>> = _all_words
 
-    val fetched_dictionary= mutableListOf<Vocab>()
-    var filtered_dictionary= mutableListOf<Vocab>()
+
+
         init {
 
             loadMyWords()
@@ -30,30 +31,21 @@ class MyDictionaryViewModel @Inject constructor(val repo: VocabRepo):ViewModel()
 
 
     fun loadMyWords()=viewModelScope.launch{
-        _state_loading_words.postValue(UserProcessState.Loading("just few moment..."))
-        kotlin.runCatching {
 
-            repo.getAllVocabs()
-        }.onSuccess {
-            fetched_dictionary.addAll(it)
-            _state_loading_words.postValue(UserProcessState.Success(DateConvertorHelper.MyUtils.NumToString(it.size)))
-
-        }.onFailure {
-            _state_loading_words.postValue(UserProcessState.Error("well that is weird!!! "))
-        }
+        all_words=repo.getAllVocabs()
 
     }
 
 
-    fun filter(query:String?)=viewModelScope.launch{
-        if(query!=null){
-            filtered_dictionary.addAll(fetched_dictionary.filter { it.word.contains("q") })
-        }
-        else{
-            filtered_dictionary.clear()
-        }
-
-    }
+//    fun filter(query:String?)=viewModelScope.launch{
+////        if(query!=null){
+////            filtered_dictionary.addAll(fetched_dictionary.filter { it.word.contains("q") })
+////        }
+////        else{
+////            filtered_dictionary.clear()
+////        }
+//
+//    }
 
 
 

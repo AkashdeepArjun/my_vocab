@@ -1,15 +1,16 @@
 package com.example.my_vocab.repo
 
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.MutableLiveData
 import com.example.my_vocab.data.datamodel.Score
 import com.example.my_vocab.data.datamodel.Vocab
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class VocabRepo(val dao: BaseDao) {
+class VocabRepo(val dao: BaseDao):BaseRepo {
 
     init {
 
@@ -17,17 +18,17 @@ class VocabRepo(val dao: BaseDao) {
 
     }
 
-    suspend fun getAllVocabs():List<Vocab> = dao.getAllVocabs()
+    override  fun getAllVocabs(): LiveData<List<Vocab>> =dao.getAllVocabs()
 
+    override  fun insert(vocab: List<Vocab>) = dao.insert(vocab)
 
-     suspend fun insert(vocabs: List<Vocab>) = dao.insert(vocabs)
+    override  fun deleteAllVocabs() = dao.deleteAll()
 
+    override  fun delete(vocab: Vocab) = dao.delete(vocab)
 
-    suspend fun deleteAll() = dao.deleteAll()
+    override  fun saveScore(score: Score)=dao.saveScore(score)
 
-     suspend fun delete(vocab: Vocab) = dao.delete(vocab)
+    override  fun getAllScores(): LiveData<List<Score>> = dao.getAllScores()
 
-    suspend fun saveScore(score: Score)=dao.saveScore(score)
-
-    suspend fun getAllScores():List<Score> = dao.getAllScores()
+    override fun deleteAllScores()=dao.deleteAllScores()
 }

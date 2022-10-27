@@ -223,4 +223,23 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.500684" />
 
+    <LinearLayout
+        android:id="@+id/questions_available_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/ques_loading_anim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/questions_loading"
+            />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

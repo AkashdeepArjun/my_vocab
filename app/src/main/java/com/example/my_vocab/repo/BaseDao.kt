@@ -1,6 +1,7 @@
 package com.example.my_vocab.repo
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,20 +11,18 @@ import com.example.my_vocab.data.datamodel.Vocab
 
 interface BaseDao {
 
+     fun getAllVocabs(): LiveData<List<Vocab>>
 
+     fun insert(vocab: List<Vocab>)
 
-    suspend fun getAllVocabs():List<Vocab>
+       fun deleteAll()
 
-    suspend fun insert(vocab: List<Vocab>)
+       fun delete(vocab: Vocab)
 
-    suspend fun deleteAll()
+       fun saveScore(score: Score)
 
-    suspend fun delete(vocab: Vocab)
+       fun getAllScores():LiveData<List<Score>>
 
-    suspend fun saveScore(score: Score)
-
-    suspend fun getAllScores():List<Score>
-
-    suspend fun deleteAllScores()
+       fun deleteAllScores()
 
 }

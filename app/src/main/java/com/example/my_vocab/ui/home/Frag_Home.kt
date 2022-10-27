@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
+import com.example.my_vocab.DateConvertorHelper
 import com.example.my_vocab.R
 import com.example.my_vocab.UserProcessState
 import com.example.my_vocab.databinding.FragHomeBinding
@@ -44,7 +45,6 @@ class Frag_Home:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpListeners()
-        vm.getAllVocabs()
         subToLiveData()
 //        Toast.makeText(context,"frag home  view created",Toast.LENGTH_SHORT).show()
         Timber.tag("FRAG HOME").v("fragment home created with viewmodel hashcode ${vm.hashCode()}")
@@ -89,7 +89,6 @@ class Frag_Home:Fragment() {
                     binding!!.buttonLearn.setOnClickListener {
                         view->
 
-
                         this.findNavController().navigate(Frag_HomeDirections.actionFragHomeToFragCapture())
 
                     }
@@ -105,27 +104,13 @@ class Frag_Home:Fragment() {
 
     fun subToLiveData(){
 
-        vm.fethed_vocab_state.observe(viewLifecycleOwner, Observer {
-            state->
-            when(state){
-                is UserProcessState.Loading ->{
+        vm.all_vocabs.observe(viewLifecycleOwner) { list ->
 
-                    binding!!.numberOfWords.text="loading..."
-
-                }
-                is UserProcessState.Success ->{
-                    binding!!.numberOfWords.text=state.size.toString()
-//                    snackbar!!.show()
-
-                }
-                is UserProcessState.Error ->{
-                    binding!!.numberOfWords.text="0"
-                }
-                else->{
-
-                }
+            if(list.isNotEmpty()){
+                binding!!.numberOfWords.text = DateConvertorHelper.MyUtils.NumToString(list.size)
             }
-        })
+
+     }
 
     }
 

@@ -6,17 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.my_vocab.WorkProgressState
 import com.example.my_vocab.data.datamodel.Score
+import com.example.my_vocab.repo.BaseRepo
 import com.example.my_vocab.repo.VocabRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ScoresViewModel @Inject constructor(val repo:VocabRepo):ViewModel() {
+class ScoresViewModel @Inject constructor(val repo:BaseRepo):ViewModel() {
 
-    private val _fetch_scores_status: MutableLiveData<WorkProgressState> =
-        MutableLiveData<WorkProgressState>(WorkProgressState.STARTED(null))
-    val fetch_scores_status: LiveData<WorkProgressState> = _fetch_scores_status
+        private var _all_scores:LiveData<List<Score>> =MutableLiveData<List<Score>>()
+            var all_scores:LiveData<List<Score>> = _all_scores
 
     val scores= mutableListOf<Score>()
 
@@ -25,22 +27,10 @@ class ScoresViewModel @Inject constructor(val repo:VocabRepo):ViewModel() {
         getAllScores()
     }
 
+    
     fun getAllScores()=viewModelScope.launch{
 
-        _fetch_scores_status.postValue(WorkProgressState.STARTED("started"))
-
-        kotlin.runCatching {
-            _fetch_scores_status.postValue(WorkProgressState.RUNNNIN("fetching scores!!!"))
-
-            repo.getAllScores()
-
-        }.onSuccess {
-            scores.addAll(it)
-            _fetch_scores_status.postValue(WorkProgressState.SUCCESS("score fetch success"))
-        }.onFailure {
-
-            _fetch_scores_status.postValue(WorkProgressState.FAILED("fetching failed"))
-        }
+        all_scores=repo.getAllScores()
 
     }
 

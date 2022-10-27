@@ -26,6 +26,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.example.my_vocab.R
 import com.example.my_vocab.TimerState
+import com.example.my_vocab.data.datamodel.Vocab
 import com.example.my_vocab.databinding.FragInQuizGameBinding
 import com.example.my_vocab.observeOnce
 import com.example.my_vocab.viewmodels.SharedViewModel
@@ -50,6 +51,8 @@ import kotlin.random.nextInt
 
 @AndroidEntryPoint
 class FragInQuizGame :Fragment() {
+
+    private var questions:List<Vocab> ? =null
     private var user_given_correct_answer=false
     private var chip: Chip?=null
     private var selected_chip:Chip?=null
@@ -89,20 +92,14 @@ class FragInQuizGame :Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewmodel.resetQuizData()
 //        val args=FragInQuizGameArgs by navArgs<Int>()
-        initTimer()
-        init_title()
-//        disableBottomNav()
-//        Looper.prepare()
         initThings()
-        setUpListeners()
+        setupQuestions()
 
-            setupTest()
-
-//        subToData()
-    }
+ }
 
 
                         //enable bottom nav when in game
+
 
 
 
@@ -114,9 +111,9 @@ class FragInQuizGame :Fragment() {
             else->{"rapid test"}
         }
 
-        binding!!.tvTypeOfTest.text=title
-        binding!!.cvMeanings.isSelectionRequired=true
-        binding!!.cvMeanings.isSingleSelection=true
+        binding.tvTypeOfTest.text=title
+        binding.cvMeanings.isSelectionRequired=true
+        binding.cvMeanings.isSingleSelection=true
 
     }
 
@@ -157,6 +154,25 @@ class FragInQuizGame :Fragment() {
         viewmodel.resetQuizData()
 
     }
+
+    fun setupQuestions(){
+        viewmodel.all_vocabs.observe(viewLifecycleOwner,Observer{
+            list->
+            if(list.isNotEmpty()){
+                questions=list
+                binding.quesLoadingAnim.cancelAnimation()
+                binding.questionsAvailableLayout.visibility=View.GONE
+                initTimer()
+                init_title()
+                setUpListeners()
+                setupTest()
+            }
+
+        })
+
+    }
+
+
                     //   QUIZ LOGIC
 
     fun logicQuiz(){
@@ -167,28 +183,32 @@ class FragInQuizGame :Fragment() {
 
 
                      // RANDOM WORD PICKED
-            random_word=viewmodel.fetched_vocabs.keys.random()
-            random_word_meaning=viewmodel.fetched_vocabs.get(random_word)
+            val vocab=questions!!.random()
+            random_word=vocab.word
+            random_word_meaning=vocab.meaning
 //            val index_of_random_word=viewmodel.fetched_vocabs.keys.indexOf(random_word)
 
                 //  MULTIPLE OPTIONS MEANINGS ONLY ONE IS CORRECT
-            val options=viewmodel.fetched_vocabs.values.shuffled().take(9).takeWhile { it!=random_word_meaning }
-
+            val words= questions!!.shuffled().take(9).takeWhile { it.meaning!=random_word_meaning }
+            val meanings:List<String> =words.map {
+                word->word.meaning
+            }
 
                 //      ADDS QUESTION CHIP
-            val chip_id:Int?=addSingleChip(random_word.toString(),binding!!.cvWord)
+            val chip_id:Int?=addSingleChip(random_word.toString(), binding.cvWord)
 
-            val word_chip= chip_id?.let { binding!!.cvWord.findViewById<Chip>(it) }
+            val word_chip= chip_id?.let { binding.cvWord.findViewById<Chip>(it) }
 
             val chip_default_bg=word_chip!!.chipBackgroundColor!!
 
-            val chip_default_text_color=word_chip!!.textColors
+            val chip_default_text_color= word_chip.textColors
 
                  //  ADDS OPTIONS CHIPS
-            addTextstoChip(options,binding!!.cvMeanings)
+            addTextstoChip(meanings, binding.cvMeanings)
 
                 //ADDS REAL ANSWER CHIP AMONG OPTION CHIPS AT RANDOM POSITION
-             right_chip_id=addChipAtIndex(random_word_meaning!!,Random.nextInt(0,binding!!.cvMeanings.childCount+1),binding!!.cvMeanings)
+             right_chip_id=addChipAtIndex(random_word_meaning!!,Random.nextInt(0, binding.cvMeanings.childCount+1),
+                 binding.cvMeanings)
 
                 // LISTENS TO CHECK STATES ON OPTIONS
         binding!!.cvMeanings.forEach {
@@ -198,13 +218,13 @@ class FragInQuizGame :Fragment() {
 
                 if(buttonView.isChecked){
                     viewmodel.setAttempted()
-                    if(is_meaning_correct(word_chip!!.text.toString(),view.text.toString()))
+                    if(random_word_meaning.toString() == view.text.toString())
                     {
                         ( buttonView as Chip).setChipBackgroundColorResource(R.color.bilkul_light_green)
                         word_chip.setChipBackgroundColorResource(R.color.bilkul_light_green)
                         viewmodel.didCorrect()
-                        binding!!.correct.text=viewmodel.correct_answers.toString()
-                        disableChipsCheckListener(binding!!.cvMeanings)
+                        binding.correct.text=viewmodel.correct_answers.toString()
+                        disableChipsCheckListener(binding.cvMeanings)
 
                     }
                     else{
@@ -213,9 +233,8 @@ class FragInQuizGame :Fragment() {
                         (buttonView as Chip).setTextColor(resources.getColor(R.color.white))
                         user_given_correct_answer=false
                         viewmodel.didWrong()
-                        binding!!.wrong.text=viewmodel.wrong_answers.toString()
-                        disableChipsCheckListener(binding!!.cvMeanings)
-
+                        binding.wrong.text=viewmodel.wrong_answers.toString()
+                        disableChipsCheckListener(binding.cvMeanings)
 
                     }
 //                       disableChipsCheckListener(binding!!.cvMeanings)
@@ -230,9 +249,6 @@ class FragInQuizGame :Fragment() {
 
             }
         }
-
-
-
 
     }
 
@@ -446,15 +462,15 @@ class FragInQuizGame :Fragment() {
                  2 -> {
 //                binding!!.tvWordsCount.text="1/${((viewmodel).fetched_vocabs.size/2)}"
                      viewmodel.current_type="Progressor Test"
-                     viewmodel.total_questions=viewmodel.fetched_vocabs.size/2
-                     startQuiz((viewmodel.fetched_vocabs.size/ 2),10)
+                     viewmodel.total_questions=questions!!.size/2
+                     startQuiz(questions!!.size/2,10)
 
                  }
                  else -> {
 //                binding!!.tvWordsCount.text="1/${viewmodel.fetched_vocabs.size}"
                      viewmodel.current_type="Scholar Test"
-                     viewmodel.total_questions=viewmodel.fetched_vocabs.size
-                     startQuiz(viewmodel.fetched_vocabs.size,10)
+                     viewmodel.total_questions=questions!!.size
+                     startQuiz(questions!!.size,10)
                  }
              }
          }

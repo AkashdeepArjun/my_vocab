@@ -50,12 +50,13 @@ android {
 
 dependencies {
 
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
     def lifecycle_version = "2.6.0-alpha02"
     def arch_version = "2.1.0"
 
      implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 
 
     // ViewModel
@@ -136,7 +137,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
         //TESTING LIBRARIES
-    testImplementation "org.hamcrest:hamcrest-all:2.2"
+    testImplementation "org.hamcrest:hamcrest:2.2"
 
 
 
@@ -167,5 +168,7 @@ dependencies {
 
     testImplementation 'org.robolectric:robolectric:4.8'
 
+        // INSTANT TASK EXECUTIONER RULES
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.my_vocab.adapters.MyDictionaryAdapter
 import com.example.my_vocab.adapters.ScoresAdapter
 import com.example.my_vocab.repo.BaseDao
+import com.example.my_vocab.repo.BaseRepo
 import com.example.my_vocab.repo.VocabDao
 import com.example.my_vocab.repo.VocabRepo
 import com.example.my_vocab.room_database.VocabDatabase
@@ -14,6 +15,9 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,13 +53,13 @@ object AppModule {
 
         @Singleton
         @Provides
-        fun provideRepo(dao: BaseDao)=VocabRepo(dao)
+        fun provideRepo(dao: BaseDao):BaseRepo=VocabRepo(dao)
 
 
                                 //PROVIDES SINGLETON VIEWMODEL FACTORY
         @Singleton
         @Provides
-        fun provideVmf(application: Application,repo: VocabRepo, remote_download_manager:RemoteModelManager,translator: Translator)=MyViewModelFactory(application,repo,remote_download_manager,translator)
+        fun provideVmf(application: Application,repo: BaseRepo, remote_download_manager:RemoteModelManager,translator: Translator)=MyViewModelFactory(application,repo,remote_download_manager,translator)
 
                         //PROVIDES SCORES ADAPTER
         @Singleton
@@ -90,5 +94,9 @@ object AppModule {
         @Singleton
         @Provides
         fun provideModelManager()=RemoteModelManager.getInstance()
+
+        @Singleton
+        @Provides
+        fun provideTextRecognizer():TextRecognizer= TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
 }

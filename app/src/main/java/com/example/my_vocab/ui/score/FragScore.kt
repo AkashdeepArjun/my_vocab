@@ -103,29 +103,18 @@ class FragScore: Fragment(),MenuProvider {
 
     fun subToData(){
 
-        vm.fetch_scores_status.observe(viewLifecycleOwner, Observer {
-          state->
-            when(state){
-                is WorkProgressState.SUCCESS->{
-                    binding!!.retreiveStatus.visibility=View.GONE
-                    scoresAdapter.differ.submitList(vm.scores)
-                    binding!!.recentScores.visibility=View.VISIBLE
+        vm.all_scores.observe(viewLifecycleOwner, Observer {
+            list->
+            if(list.isNotEmpty()){
 
-                }
-                is WorkProgressState.STARTED->{
-                    binding!!.retreiveStatus.text=state.message
+                scoresAdapter.differ.submitList(list)
+                binding!!.recentScores.visibility=View.VISIBLE
+                binding!!.scoreLoadingAnim.cancelAnimation()
+                binding!!.scoreLoadingAnim.visibility=View.GONE
 
-                }
-                is WorkProgressState.RUNNNIN->{
-                    binding!!.retreiveStatus.text=state.message
-                }
-                is WorkProgressState.FAILED->{
-                    binding!!.retreiveStatus.text=state.message
-                }
-                else->{}
+
             }
-
-        })
+   })
 
     }
 

@@ -14,6 +14,7 @@ import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -54,12 +55,18 @@ class Frag_Quiz: Fragment() ,MenuProvider{
 
 
     fun checkEligibility(){
-        if(vm.fetched_vocabs.keys.size>=10){
-            binding!!.miniumWordsCheck.visibility=View.GONE
-            binding!!.quizRoot.visibility=View.VISIBLE
-        }else{
-            binding!!.miniumWordsCheck.visibility=View.VISIBLE
-            binding!!.quizRoot.visibility=View.GONE
+
+        vm.all_vocabs.observeOnce(viewLifecycleOwner){
+
+            list->
+            if(list.isNotEmpty()){
+                binding!!.miniumWordsCheck.visibility=View.GONE
+                binding!!.quizRoot.visibility=View.VISIBLE
+            }else{
+                binding!!.miniumWordsCheck.visibility=View.VISIBLE
+                binding!!.quizRoot.visibility=View.GONE
+            }
+
         }
 
     }
@@ -96,16 +103,16 @@ class Frag_Quiz: Fragment() ,MenuProvider{
     fun nullifyBindings(){
         binding=null
     }
+
+
     fun setUpListeners(){
+
             binding!!.groupQuizTestOptions.addOnButtonCheckedListener { group, checkedId, isChecked ->
 
                 if(isChecked){
                     binding!!.buttonStartTest.isVisible=true
                     binding!!.groupQuizTestOptions.clearOnButtonCheckedListeners()
                 }
-
-
-
 
             }
 
@@ -118,7 +125,6 @@ class Frag_Quiz: Fragment() ,MenuProvider{
             }
 
             this.findNavController().navigate(Frag_QuizDirections.goToGame(checked_option_id))
-
 
         }
 
@@ -136,7 +142,9 @@ class Frag_Quiz: Fragment() ,MenuProvider{
         menu.iterator().forEach {
             it.isEnabled=false
         }
+
     }
+
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
 
