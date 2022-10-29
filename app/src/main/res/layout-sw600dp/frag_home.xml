@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/ballons_bg"
+    android:paddingHorizontal="8dp"
     >
 
     <com.google.android.material.card.MaterialCardView
@@ -12,11 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+
         android:layout_margin="8dp"
         android:elevation="16dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="16dp"
         app:cardBackgroundColor="@color/bilkul_light_green"
-
+        android:padding="4dp"
         >
 
 
@@ -27,60 +29,64 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical"
             android:gravity="center"
+            android:paddingVertical="48dp"
             >
 
             <TextView
                 android:id="@+id/number_of_words"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="108"
+                android:background="@drawable/trophy_x2"
                 android:gravity="center"
+                android:text="108"
+                android:textColor="@color/number_of_words_color"
                 android:textSize="80sp"
                 android:textStyle="bold"
-                android:textColor="@color/number_of_words_color"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/trophy_x2"
-                        />
+                tools:ignore="HardcodedText" />
+
             <TextView
                 android:id="@+id/title_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/words_n_learned"
-                android:textSize="40sp"
+                android:text="words\n learned!!"
+                android:textSize="60sp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/number_of_words"
-               android:layout_marginEnd="16dp"
-
+                android:layout_marginEnd="16dp"
+                tools:ignore="HardcodedText"
 
                 />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/medal"-->
-<!--                android:layout_width="96dp"-->
-<!--                android:layout_height="96dp"-->
-<!--                android:src="@drawable/_x1"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                />-->
-<!--            <ImageView-->
-<!--                android:id="@+id/medal2"-->
-<!--                android:layout_width="96dp"-->
-<!--                android:layout_height="96dp"-->
-<!--                android:src="@drawable/_x1"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                />-->
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/medal"-->
+            <!--                android:layout_width="96dp"-->
+            <!--                android:layout_height="96dp"-->
+            <!--                android:src="@drawable/_x1"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/medal2"-->
+            <!--                android:layout_width="96dp"-->
+            <!--                android:layout_height="96dp"-->
+            <!--                android:src="@drawable/_x1"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_learn"
         android:layout_width="wrap_content"
@@ -89,7 +95,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/words_learned_card"
-        android:layout_marginTop="16dp"
+
+        android:layout_marginTop="24dp"
         android:text="@string/button_learn_new_words"
         app:cornerRadius="24dp"
         android:padding="16dp"
@@ -97,7 +104,7 @@
         android:textColor="@color/white"
         app:backgroundTint="@color/learn_new_word_color"
         android:elevation="16dp"
-    />
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_my_dictionary"
@@ -115,7 +122,7 @@
         android:textColor="@color/black"
         app:backgroundTint="#E7D2CC"
         android:elevation="16dp"
-        />
+        tools:ignore="HardcodedText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

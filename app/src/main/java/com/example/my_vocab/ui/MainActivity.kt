@@ -195,7 +195,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.frag_score
             ))
 //            app_bar_configuration= AppBarConfiguration(nav_controller.graph)
-            setupActionBarWithNavController(nav_controller,app_bar_configuration!!)
+
+                //ACTION BAR SETUP
+//            setupActionBarWithNavController(nav_controller,app_bar_configuration!!)
 
         }
             // GOAL:SHOWS BACK BUTTON ON ACTION BAR

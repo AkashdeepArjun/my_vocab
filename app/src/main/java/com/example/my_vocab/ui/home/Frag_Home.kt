@@ -86,14 +86,14 @@ class Frag_Home:Fragment() {
 
                 //SETUP LISTENERS
                 fun setUpListeners(){
-                    binding!!.buttonLearn.setOnClickListener {
+                    binding!!.buttonLearn!!.setOnClickListener {
                         view->
 
                         this.findNavController().navigate(Frag_HomeDirections.actionFragHomeToFragCapture())
 
                     }
 
-                    binding!!.buttonMyDictionary.setOnClickListener {
+                    binding!!.buttonMyDictionary!!.setOnClickListener {
                         val intent=Intent(this.requireActivity(),MyDictionary::class.java)
                         startActivity(intent)
                     }
@@ -107,7 +107,7 @@ class Frag_Home:Fragment() {
         vm.all_vocabs.observe(viewLifecycleOwner) { list ->
 
             if(list.isNotEmpty()){
-                binding!!.numberOfWords.text = DateConvertorHelper.MyUtils.NumToString(list.size)
+                binding!!.numberOfWords!!.text = DateConvertorHelper.MyUtils.NumToString(list.size)
             }
 
      }

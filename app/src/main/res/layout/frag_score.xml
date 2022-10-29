@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="4dp"
+    android:background="@drawable/ballons_bg"
     android:animateLayoutChanges="true">
 
 
@@ -16,7 +17,7 @@
       tools:listitem="@layout/item_score"
        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
        android:orientation="vertical"
-       android:visibility="gone"
+      android:visibility="gone"
        />
 
    <com.airbnb.lottie.LottieAnimationView

@@ -41,7 +41,6 @@
         app:menu="@menu/bottom_nav_menu"
         android:elevation="16dp"
         android:background="@color/bottom_nav_color"
-
         />
 
 

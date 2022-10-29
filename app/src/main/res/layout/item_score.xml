@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="4dp"
     android:layout_margin="2.5dp"
-    android:background="#DADDFC"
+    android:background="@drawable/rectangular_bg"
     >
     <ImageView
         android:id="@+id/clock_icon"
@@ -23,8 +23,9 @@
         app:layout_constraintStart_toEndOf="@id/clock_icon"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Date Goes Here"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:layout_margin="4dp"
+
         />
     <TextView
         android:id="@+id/tv_quiz_type"
@@ -33,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Quiz type Here"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:layout_margin="4dp"
 
 
@@ -49,6 +50,7 @@
         android:textSize="40sp"
         android:layout_margin="4dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/disney_font_2"
         />
 
     <TextView
@@ -73,6 +75,8 @@
         android:text="R"
         android:textSize="40sp"
         android:textStyle="bold"
+        android:fontFamily="@font/disney_font_2"
+        android:textColor="@color/black"
 
         />
 
