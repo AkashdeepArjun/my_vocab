@@ -46,6 +46,7 @@ import java.util.*
 import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.timerTask
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -178,8 +179,8 @@ class FragInQuizGame :Fragment() {
     fun logicQuiz(){
 
         // MAKES SURE OLD QUESTION AND ANSWERS IS WIPED OUT BEFORE NEW QUESTION APPEARS
-            removeAllChips(binding!!.cvWord)
-            removeAllChips(binding!!.cvMeanings)
+            removeAllChips(binding.cvWord)
+            removeAllChips(binding.cvMeanings)
 
 
                      // RANDOM WORD PICKED
@@ -211,7 +212,7 @@ class FragInQuizGame :Fragment() {
                  binding.cvMeanings)
 
                 // LISTENS TO CHECK STATES ON OPTIONS
-        binding!!.cvMeanings.forEach {
+        binding.cvMeanings.forEach {
                 view  ->
 
             (view as Chip).setOnCheckedChangeListener { buttonView, isChecked ->
@@ -342,14 +343,14 @@ class FragInQuizGame :Fragment() {
 
                 // INITIALIZE THE SECOND CLOCK TIMER
      fun initTimer(){
-         clock_timer=ticker(1000L,0L,lifecycleScope.coroutineContext,TickerMode.FIXED_PERIOD)
+         clock_timer=ticker(1000L,0L,viewmodel.viewModelScope.coroutineContext,TickerMode.FIXED_PERIOD)
 
 
      }
 
 
      @OptIn(ObsoleteCoroutinesApi::class)
-     fun startQuiz(number_of_words: Int,time_in_seconds:Int) =scopemain@lifecycleScope.launch{
+     fun startQuiz(number_of_words: Int,time_in_seconds:Int) = viewmodel.viewModelScope.launch{
 //         val range=30000L..300000L
 
          binding.tvWordsCount.text = "1/${number_of_words}"
@@ -359,28 +360,27 @@ class FragInQuizGame :Fragment() {
 //         val ticker_channel=ticker(30000L,30000L,lifecycleScope.coroutineContext,TickerMode.FIXED_PERIOD)
 
          while(while_loop_counter<=number_of_words){
-                 val right_chip = binding!!.cvMeanings.findViewById<Chip>(right_chip_id!!)
+                 val right_chip = binding.cvMeanings.findViewById<Chip>(right_chip_id!!)
 
                  var clock_sec = 0
                  //question updates every 30 seconds
 //
-             val timer_job=launch {
+             val timer_job=this.launch {
 
-                        withTimeoutOrNull(time_in_seconds*1000L) {
 
-                            clock_timer!!.receiveAsFlow().take(time_in_seconds).cancellable().collect {
+                       withTimeoutOrNull(time_in_seconds*1000L) {
+                            clock_timer!!.receiveAsFlow()
+                                .take(time_in_seconds).cancellable().collect {
 
                                 clock_sec += 1
 
                                 binding.tvClock.text = "${time_in_seconds - clock_sec}"
 
-
-
                                 if (clock_sec == time_in_seconds ) {
 
                                     if(!viewmodel.attempted){
                                         viewmodel.didNotAttempt()
-                                        binding!!.unattempted.text=viewmodel.unattempted_answers.toString()
+                                        binding.unattempted.text=viewmodel.unattempted_answers.toString()
 
                                     }
                                     viewmodel.unsetAttempted()

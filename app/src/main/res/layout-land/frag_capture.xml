@@ -4,8 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ballons_bg"
+    android:background="@drawable/ballons_landsc"
+    android:padding="8dp"
     >
+
     <TextView
         android:id="@+id/helper_text"
         android:layout_width="wrap_content"
@@ -18,23 +20,20 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
         />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/capture_photo_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/helper_text"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_capture_photo_70_1"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_land_ver"
+        app:layout_constraintTop_toBottomOf="@id/guideline_land_hor"
+        app:layout_constraintBottom_toTopOf="@id/guideline_land_end"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-
         >
+
         <androidx.camera.view.PreviewView
             android:id="@+id/camera_preview"
             android:layout_width="match_parent"
@@ -58,45 +57,58 @@
         android:id="@+id/capture_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="capture text area"
+        android:text="Capture"
+        app:layout_constraintStart_toEndOf="@id/capture_photo_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/capture_photo_layout"
+        app:layout_constraintTop_toTopOf="@id/capture_photo_layout"
+
         app:cornerRadius="24dp"
+        android:padding="16dp"
         />
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticle_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="267dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2502806" />
+        app:layout_constraintGuide_begin="84dp" />
 
-        <TextView
-            android:id="@+id/tv_permission_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/capture_photo_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/camera_permission_explanation"
-            android:textColor="#FF4A4A"
-            android:visibility="gone"
-            />
+    <TextView
+        android:id="@+id/tv_permission_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/capture_photo_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/capture_photo_layout"
+        android:text="please grant permissions"
+        android:textColor="#FF4A4A"
+        android:visibility="gone"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/grant_permission_button"
-        android:layout_width="260dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="grant permissions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/capture_photo_layout"
         app:cornerRadius="24dp"
         app:layout_constraintTop_toBottomOf="@id/tv_permission_info"
         android:backgroundTint="#EEE3CB"
         android:textColor="@color/black"
         android:visibility="gone"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:gravity="center"
+
         />
 
     <TextView
@@ -108,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="capture Photo "
-        android:textSize="60sp"
+        android:textSize="40sp"
         android:fontFamily="@font/disney_font_1"
         android:textColor="@color/black"
         android:background="@drawable/paint_green"
@@ -117,11 +129,27 @@
         />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_capture_photo_70_1"
+        android:id="@+id/guideline_land_hor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_land_ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_land_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.0"
         />
 
 

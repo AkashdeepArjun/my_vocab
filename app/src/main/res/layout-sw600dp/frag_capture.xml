@@ -13,12 +13,13 @@
         android:text="@string/capture_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_capture_photo"
+        app:layout_constraintTop_toTopOf="@id/horizontal_guide"
         android:fontFamily="@font/disney_font_1"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
+
         />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,8 +28,8 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/helper_text"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_capture_photo_70_1"
+        app:layout_constraintTop_toTopOf="@id/horizontal_guide_30"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_70_1"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -53,37 +54,56 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/capture_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="capture text area"
+        android:text="capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/capture_photo_layout"
+        app:layout_constraintTop_toBottomOf="@id/guideline_70_1"
         app:cornerRadius="24dp"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:padding="24dp"
+
         />
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticle_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.25"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2502806" />
+        />
 
-        <TextView
-            android:id="@+id/tv_permission_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/capture_photo_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/camera_permission_explanation"
-            android:textColor="#FF4A4A"
-            android:visibility="gone"
-            />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_guide_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.3"
+        android:orientation="horizontal"
+        />
+
+    <TextView
+        android:id="@+id/tv_permission_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/capture_photo_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/camera_permission_explanation"
+        android:textColor="#FF4A4A"
+        android:visibility="gone"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/grant_permission_button"
@@ -107,8 +127,8 @@
         app:layout_constraintBottom_toTopOf="@id/horizontal_guide"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="capture Photo "
-        android:textSize="60sp"
+        android:text="Capture Photo "
+        android:textSize="80sp"
         android:fontFamily="@font/disney_font_1"
         android:textColor="@color/black"
         android:background="@drawable/paint_green"
@@ -116,14 +136,13 @@
         android:padding="8dp"
         />
 
+
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_capture_photo_70_1"
+        android:id="@+id/guideline_70_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

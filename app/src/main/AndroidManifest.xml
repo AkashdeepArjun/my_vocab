@@ -28,7 +28,9 @@
         <activity
             android:name=".ui.MyDictionary"
             android:exported="false"
-            android:theme="@style/Theme.MyDictionay">
+            android:theme="@style/Theme.MyDictionay"
+            android:resizeableActivity="true"
+            >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -52,7 +54,8 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.My_vocab"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
+
             >
 
         </activity>
