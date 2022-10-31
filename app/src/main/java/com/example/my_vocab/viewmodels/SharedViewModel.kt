@@ -21,15 +21,20 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.TickerMode
+import kotlinx.coroutines.channels.ticker
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.take
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(val application: Application, val repo: BaseRepo):ViewModel() {
 
+
+    private lateinit var clock_timer: ReceiveChannel<Unit>
 
     @Inject
     lateinit var translator: Translator
@@ -164,9 +169,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
             val fetched_vocabs=HashMap<String,String>()
 
 
-            //TIMER FOR GAME
-            private val _clock_timer:MutableLiveData<TimerState> = MutableLiveData<TimerState>(TimerState.INITIALIZE(null))
-            val clock_timer:LiveData<TimerState>  = _clock_timer
+
 
 
         //FETCH ALL SCORES
@@ -187,7 +190,7 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
         setupTranslator()               // setting up and initialize the google translator
 //        translateWords()           // translates the selected words
         Timber.tag("VIEWMODEL HASTA WA WASTA BABY").e("VIEWMODEL INITIALIZED")
-
+        initTimer()
 
 
        getAllVocabs()
@@ -450,6 +453,15 @@ class SharedViewModel @Inject constructor(val application: Application, val repo
 
     }
 
+
+
+    var clock_sec=0
+    @OptIn(ObsoleteCoroutinesApi::class)
+    private fun initTimer(){
+        clock_timer= ticker(1000L,0L,viewModelScope.coroutineContext, TickerMode.FIXED_PERIOD)
+
+
+    }
 
 
 }

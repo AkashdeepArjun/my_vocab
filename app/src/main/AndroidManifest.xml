@@ -55,7 +55,7 @@
             android:exported="true"
             android:theme="@style/Theme.My_vocab"
             android:screenOrientation="fullSensor"
-
+            android:resizeableActivity="true"
             >
 
         </activity>

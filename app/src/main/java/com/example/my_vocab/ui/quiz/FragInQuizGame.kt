@@ -77,7 +77,8 @@ class FragInQuizGame :Fragment() {
         val inflater= TransitionInflater.from(requireContext())
         exitTransition=inflater.inflateTransition(R.transition.slide_from_right)
         enterTransition=inflater.inflateTransition(R.transition.slide_from_right)
-    }
+
+          }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -153,6 +154,9 @@ class FragInQuizGame :Fragment() {
         super.onDestroy()
 //        enableBottomNav()
         viewmodel.resetQuizData()
+
+
+
 
     }
 
@@ -350,7 +354,7 @@ class FragInQuizGame :Fragment() {
 
 
      @OptIn(ObsoleteCoroutinesApi::class)
-     fun startQuiz(number_of_words: Int,time_in_seconds:Int) = viewmodel.viewModelScope.launch{
+     fun startQuiz(number_of_words: Int,time_in_seconds:Int) =lifecycleScope.launch{
 //         val range=30000L..300000L
 
          binding.tvWordsCount.text = "1/${number_of_words}"
@@ -367,16 +371,15 @@ class FragInQuizGame :Fragment() {
 //
              val timer_job=this.launch {
 
-
-                       withTimeoutOrNull(time_in_seconds*1000L) {
+                 withTimeoutOrNull(time_in_seconds*1000L) {
                             clock_timer!!.receiveAsFlow()
-                                .take(time_in_seconds).cancellable().collect {
+                                .take(time_in_seconds-viewmodel.clock_sec).collect {
 
-                                clock_sec += 1
+                                    viewmodel.clock_sec+=1
 
-                                binding.tvClock.text = "${time_in_seconds - clock_sec}"
+                                binding.tvClock.text = "${time_in_seconds - viewmodel.clock_sec}"
 
-                                if (clock_sec == time_in_seconds ) {
+                                if (viewmodel.clock_sec == time_in_seconds ) {
 
                                     if(!viewmodel.attempted){
                                         viewmodel.didNotAttempt()
@@ -417,38 +420,20 @@ class FragInQuizGame :Fragment() {
 //                    }
 
                 if(timer_job.isCancelled){
+                    viewmodel.clock_sec=0
                     while_loop_counter+=1
                     continue
                 }
 
                             // countdown timer logic
 
-
+                    if(timer_job.isCompleted){
+                        viewmodel.clock_sec=0
+                    }
                  while_loop_counter+=1
              }
 
          }
-
-
-
-
-//         fun resetQuestionCounter() {
-//             question_counter = 1
-//         }
-
-//         fun subToData() {
-//
-//             viewmodel.clock_timer.observe(viewLifecycleOwner, Observer { state ->
-//                 if (state is TimerState.DONE) {
-//                     logicQuiz()
-//                     viewmodel.clock_timer.removeObservers(this)
-//                 }
-//                 if (state is TimerState.RUNNING) {
-//                     binding!!.tvClock.text = state.message
-//                 }
-//             })
-//
-//         }
 
 
          fun setupTest() {

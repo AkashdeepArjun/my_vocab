@@ -77,7 +77,7 @@ class Frag_Quiz: Fragment() ,MenuProvider{
         checkEligibility()
         init_instructions()
         setUpListeners()
-
+        vm.clock_sec=0
     }
 
     override fun onAttach(context: Context) {
